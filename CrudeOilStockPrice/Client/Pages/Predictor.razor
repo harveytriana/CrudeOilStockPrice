@@ -1,45 +1,53 @@
 ﻿@page "/predictor"
-@inject HttpClient _http
+@inject HttpClient _httpClient
 @inject IJSRuntime _jsRunTime
 @using CrudeOilStockPrice.Shared
+@using System.Text.Json
 
 <h1>Crude Oil Stock Price 2000, Predictor</h1>
 <hr />
 <div>
     <canvas id="canvas-1" width="600" height="300"></canvas>
 </div>
-@if (correlate == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-<table class="table table-sm" style="font-family:'Calibri';">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Price</th>
-            <th>Prediction</th>
-        </tr>
-    </thead>
-    <tbody>
-          @foreach (var i in correlate)
-            {
+<div>
+    @if (correlate == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table table-sm" style="font-family:'Calibri';">
+            <thead>
                 <tr>
-                    <td>@i.Date.ToShortDateString()</td>
-                    <td>$ @i.Price.ToString("N2")</td>
-                    <td>$ @i.PredictedPrice.ToString("N2")</td>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Prediction</th>
                 </tr>
-            }
-    </tbody>
-</table>
-}
+            </thead>
+            <tbody>
+                @foreach (var i in correlate)
+                {
+                    <tr>
+                        <td>@i.Date.ToShortDateString()</td>
+                        <td>$ @i.Price.ToString("N2")</td>
+                        <td>$ @i.PredictedPrice.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
 @code {
     List<StockPriceCorrelate> data;
 
     IJSObjectReference module;
 
     List<StockPriceCorrelate> correlate;
+
+    bool disableCommand;
+
+    float score;
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,7 +63,7 @@ else
 
     async Task DrawChart()
     {
-        var q = await _http.GetFromJsonAsync<List<StockPriceCorrelate>>("api/StockPrice/GetCorrelate");
+        var q = await _httpClient.GetFromJsonAsync<List<StockPriceCorrelate>>("api/StockPrice/GetCorrelate");
 
         var labels = q.Select(x => FormatDate(x.Date)).ToList();
         var dataSet1 = q.Select(x => x.Price).ToList();
@@ -68,5 +76,23 @@ else
     }
 
     string FormatDate(DateTime date) => date.ToString("dd-MMM-yyyy").Replace(".", "");
+
+    async Task GetPrediction()
+    {
+        disableCommand = true;
+        try
+        {
+            //var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/ml/prediction", new StockPrice { Date = "" });
+            //var json = await response.Content.ReadAsStringAsync();
+            //var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json);
+            //score = predictionData != null ? predictionData.Score : 0;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception in GetPrediction:\n{0}", e.Message);
+        }
+        await Task.Delay(2000);
+        disableCommand = false;
+    }
 
 }
