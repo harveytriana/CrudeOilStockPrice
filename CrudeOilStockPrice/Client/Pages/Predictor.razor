@@ -3,16 +3,43 @@
 @inject IJSRuntime _jsRunTime
 @using CrudeOilStockPrice.Shared
 
-<h1>Crude Oil Stock Price Predictor</h1>
+<h1>Crude Oil Stock Price 2000, Predictor</h1>
 <hr />
 <div>
     <canvas id="canvas-1" width="600" height="300"></canvas>
 </div>
-
+@if (correlate == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<table class="table table-sm" style="font-family:'Calibri';">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Prediction</th>
+        </tr>
+    </thead>
+    <tbody>
+          @foreach (var i in correlate)
+            {
+                <tr>
+                    <td>@i.Date.ToShortDateString()</td>
+                    <td>$ @i.Price.ToString("N2")</td>
+                    <td>$ @i.PredictedPrice.ToString("N2")</td>
+                </tr>
+            }
+    </tbody>
+</table>
+}
 @code {
     List<StockPriceCorrelate> data;
 
     IJSObjectReference module;
+
+    List<StockPriceCorrelate> correlate;
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,6 +62,9 @@
         var dataSet2 = q.Select(x => x.PredictedPrice).ToList();
 
         await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
+
+        // populate table
+        correlate = q;
     }
 
     string FormatDate(DateTime date) => date.ToString("dd-MMM-yyyy").Replace(".", "");
