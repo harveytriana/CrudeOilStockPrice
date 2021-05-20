@@ -9,7 +9,6 @@
     <canvas id="canvas-1" width="600" height="300"></canvas>
 </div>
 
-
 @code {
     List<StockPriceCorrelate> data;
 
@@ -31,9 +30,13 @@
     {
         var q = await _http.GetFromJsonAsync<List<StockPriceCorrelate>>("api/StockPrice/GetCorrelate");
 
-        var labels = q.Select(x => x.Date).ToList();
-        var values = q.Select(x => x.Price).ToList();
-        // interop
-        await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, values);
+        var labels = q.Select(x => FormatDate(x.Date)).ToList();
+        var dataSet1 = q.Select(x => x.Price).ToList();
+        var dataSet2 = q.Select(x => x.PredictedPrice).ToList();
+
+        await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
     }
+
+    string FormatDate(DateTime date) => date.ToString("dd-MMM-yyyy").Replace(".", "");
+
 }

@@ -1,8 +1,6 @@
 ﻿import '../lib/chart.min.js'
 
-export function DrawChart(canvasId, labels, values) {
-    //let colors = [];
-    let n = labels.length;
+export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
 
     let ctx = document.getElementById(canvasId);
 
@@ -12,10 +10,18 @@ export function DrawChart(canvasId, labels, values) {
             labels: labels,
             datasets: [
                 {
-                    borderColor: ['rgb(163,141,28)'],
-                    data: values,
+                    data: dataSet1,
+                    pointRadius: 4,
+                    borderColor: 'rgba(64,128,128,0.7)',
+                    backgroundColor: 'transparent',
+                    fill: false,
+                    showLine: false
+                },
+                {
+                    data: dataSet2,
                     pointRadius: 0,
-                    fill: false
+                    fill: false,
+                    borderColor: 'rgb(33,199,90)',
                 }
             ]
         },
@@ -29,11 +35,25 @@ export function DrawChart(canvasId, labels, values) {
                 easing: 'linear'
             },
             scales: {
-                xAxes: [{
+                yAxes: [{
                     ticks: {
-                        display: false
+                        fontSize: 10,
                     }
                 }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 10,
+                        // display: false,
+                        fontFamily: 'Lucida Console',
+                        fontColor: 'transparent'
+                    },
+                    //gridLines: {
+                    //    display: false
+                    //}
+                }]
+            },
+            tooltips: {
+                mode: 'label'
             }
         }
     });

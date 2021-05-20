@@ -1,4 +1,5 @@
-﻿
+﻿MAIN REFERENCE
+https://github.com/dotnet/machinelearning/blob/main/docs/code/MlNetCookBook.md
 
 Data source
 https://www.kaggle.com/awadhi123/crude-oil-stock-price
