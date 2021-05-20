@@ -7,6 +7,7 @@ using Microsoft.ML.Trainers.FastTree;
 using System.Collections.Generic;
 //
 using static System.Console;
+using System.Globalization;
 
 namespace ConsoleMLApp
 {
@@ -114,13 +115,23 @@ namespace ConsoleMLApp
             var dates = dataView.Preview().ColumnView[0];
             var prices = dataView.Preview().ColumnView[5];
 
+            var ls = new List<StockPriceCorrelate>();
+
             for (int i = 0; i < dates.Values.Length; i++) {
                 sp.Date = dates.Values[i].ToString();
                 sp.Price = float.Parse(prices.Values[i].ToString());
                 float p = predictionEngine.Predict(sp).Score;
                 WriteLine($"{sp.Date}\t{sp.Price:N2}\t{p:N2}");
+
+                ls.Add(new StockPriceCorrelate {
+                    Date = DateTime.ParseExact(sp.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    Price = sp.Price,
+                    PredictedPrice = p
+                });
             }
 
+            // save a json file
+            Utils.SaveJsonFile(DATA_PATH + "StockPricePlot.json", ls);
         }
 
     }

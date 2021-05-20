@@ -11,12 +11,16 @@ namespace CrudeOilStockPrice.Server
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        public static string DATA_PATH { get; private set; }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
-        }
 
-        public IConfiguration Configuration { get; }
+            DATA_PATH = env.ContentRootPath + "/Data/";
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -25,6 +29,13 @@ namespace CrudeOilStockPrice.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // SignalR
+            services.AddSignalR();
+            services.AddResponseCompression(opts => {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +61,8 @@ namespace CrudeOilStockPrice.Server
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
+                // SignalR
+                // endpoints.MapHub<PromptHub>("/prompt");
             });
         }
     }

@@ -17,5 +17,4 @@ namespace CrudeOilStockPrice.Shared
     {
         public float Score { get; set; }
     }
-
 }

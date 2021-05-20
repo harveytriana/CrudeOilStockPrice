@@ -18,4 +18,8 @@
     <PackageReference Include="Microsoft.ML.FastTree" Version="1.5.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Hubs\" />
+  </ItemGroup>
+
 </Project>

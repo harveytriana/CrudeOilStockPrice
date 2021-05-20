@@ -1,6 +1,8 @@
 ﻿using Microsoft.ML;
 using System;
 using System.IO;
+using System.Text;
+using System.Text.Json;
 
 namespace ConsoleMLApp
 {
@@ -50,6 +52,12 @@ namespace ConsoleMLApp
                 writer.WriteLine(line);
             }
             return file;
+        }
+
+        public static void SaveJsonFile<T>(string file, T any)
+        {
+            var json = JsonSerializer.Serialize(any);
+            File.WriteAllText(file, json, Encoding.UTF8);
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿@page "/predictor"
+@inject HttpClient _http
+@inject IJSRuntime _jsRunTime
+@using CrudeOilStockPrice.Shared
+
+<h1>Crude Oil Stock Price Predictor</h1>
+<hr />
+<div>
+    <canvas id="canvas-1" width="600" height="300"></canvas>
+</div>
+
+
+@code {
+    List<StockPriceCorrelate> data;
+
+    IJSObjectReference module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetModule();
+        await DrawChart();
+    }
+
+    async Task GetModule()
+    {
+        var jsSource = $"./jsModules/CrudeOilStockPrice.js?v={DateTime.Now.Ticks}";
+        module = await _jsRunTime.InvokeAsync<IJSObjectReference>("import", jsSource);
+    }
+
+    async Task DrawChart()
+    {
+        var q = await _http.GetFromJsonAsync<List<StockPriceCorrelate>>("api/StockPrice/GetCorrelate");
+
+        var labels = q.Select(x => x.Date).ToList();
+        var values = q.Select(x => x.Price).ToList();
+        // interop
+        await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, values);
+    }
+}
