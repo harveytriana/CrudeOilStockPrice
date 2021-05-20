@@ -11,10 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Shared",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMLApp", "ConsoleMLApp\ConsoleMLApp.csproj", "{522F09AC-80D3-4572-B485-940AD7768045}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPriceML.Model", "CrudeOilStockPriceML.Model\CrudeOilStockPriceML.Model.csproj", "{819B5F91-0962-4CB0-89B2-7848AF423AFF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPriceML.ConsoleApp", "CrudeOilStockPriceML.ConsoleApp\CrudeOilStockPriceML.ConsoleApp.csproj", "{ABAFDE27-032D-4FAA-AE26-597364DF03D6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,14 +33,6 @@ Global
 		{522F09AC-80D3-4572-B485-940AD7768045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{522F09AC-80D3-4572-B485-940AD7768045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{522F09AC-80D3-4572-B485-940AD7768045}.Release|Any CPU.Build.0 = Release|Any CPU
-		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
