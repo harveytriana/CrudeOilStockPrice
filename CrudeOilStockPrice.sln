@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Server", "CrudeOilStockPrice\Server\CrudeOilStockPrice.Server.csproj", "{EA458F92-3B4C-44C4-862D-642D24741A72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Client", "CrudeOilStockPrice\Client\CrudeOilStockPrice.Client.csproj", "{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Shared", "CrudeOilStockPrice\Shared\CrudeOilStockPrice.Shared.csproj", "{70798590-A7E5-4E6D-B228-B0A0FA6F4417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMLApp", "ConsoleMLApp\ConsoleMLApp.csproj", "{522F09AC-80D3-4572-B485-940AD7768045}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPriceML.Model", "CrudeOilStockPriceML.Model\CrudeOilStockPriceML.Model.csproj", "{819B5F91-0962-4CB0-89B2-7848AF423AFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPriceML.ConsoleApp", "CrudeOilStockPriceML.ConsoleApp\CrudeOilStockPriceML.ConsoleApp.csproj", "{ABAFDE27-032D-4FAA-AE26-597364DF03D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA458F92-3B4C-44C4-862D-642D24741A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA458F92-3B4C-44C4-862D-642D24741A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA458F92-3B4C-44C4-862D-642D24741A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA458F92-3B4C-44C4-862D-642D24741A72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70798590-A7E5-4E6D-B228-B0A0FA6F4417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70798590-A7E5-4E6D-B228-B0A0FA6F4417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70798590-A7E5-4E6D-B228-B0A0FA6F4417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70798590-A7E5-4E6D-B228-B0A0FA6F4417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{522F09AC-80D3-4572-B485-940AD7768045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{522F09AC-80D3-4572-B485-940AD7768045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{522F09AC-80D3-4572-B485-940AD7768045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{522F09AC-80D3-4572-B485-940AD7768045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{819B5F91-0962-4CB0-89B2-7848AF423AFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABAFDE27-032D-4FAA-AE26-597364DF03D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40A8F3B4-F104-4321-804A-8F038AED96EB}
+	EndGlobalSection
+EndGlobal
