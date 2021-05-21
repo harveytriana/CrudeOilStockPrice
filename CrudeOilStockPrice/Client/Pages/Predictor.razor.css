@@ -1,6 +1,6 @@
 ﻿table tbody {
     display: block;
-    max-height: 200px;
+    max-height: 150px;
     overflow-y: scroll;
 }
 
@@ -8,4 +8,24 @@
         display: table;
         width: 100%;
         table-layout: fixed;
+    }
+
+td {
+    padding-left: 16px;
+}
+
+
+.td-inf {
+    width: 170px;
+    font-weight: bold;
+}
+
+input {
+    border: none !important;
+    font-family: 'Calibri';
+    font-size: 13px;
+}
+
+    textarea:focus, input:focus {
+        outline: none;
     }

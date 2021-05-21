@@ -9,6 +9,7 @@
 <div>
     <canvas id="canvas-1" width="600" height="300"></canvas>
 </div>
+<h4>Analisys Plot</h4>
 <div>
     @if (correlate == null)
     {
@@ -36,6 +37,55 @@
             </tbody>
         </table>
     }
+</div>
+<br />
+<div>
+    <table cellpadding="4">
+        <tr>
+             <td valign="top">
+                <h6>Metrics for Regression model</h6>
+                <table class="table table-sm" style="font-family:'Calibri';">
+                    <tr>
+                        <td class="td-inf">Average L1 Loss</td>
+                        <td>12.1233</td>
+                    </tr>
+                    <tr>
+                        <td class="td-inf">Average L2 Loss</td>
+                        <td>12.1233</td>
+                    </tr>
+                    <tr>
+                        <td class="td-inf">Average RMS</td>
+                        <td>12.1233</td>
+                    </tr>
+                    <tr>
+                        <td class="td-inf">Average Loss Function</td>
+                        <td>12.1233</td>
+                    </tr>
+                    <tr>
+                        <td class="td-inf">Average R-squared</td>
+                        <td>12.1233</td>
+                    </tr>
+                </table>
+            </td>
+            <td valign="top">
+                <h6>User Prediction</h6>
+                <table class="table table-sm" style="font-family:'Calibri';">
+                    <tr>
+                        <td class="td-inf">Input Date</td>
+                        <td>
+                            <input value="2000-03-22" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-inf">Prediction</td>
+                        <td>
+                            <input value="$140.23" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </div>
 
 @code {
