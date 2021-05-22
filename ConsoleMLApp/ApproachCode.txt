@@ -1,6 +1,13 @@
 ﻿
 namespace ConsoleMLApp { class Program  { ...
 ---------------------------------------------
+#region TEM
+class StockPriceCorrelate
+{
+    public DateTime Date { get; set; }
+    public float Price { get; set; }
+    public float PredictedPrice { get; set; }
+}
 private static void CreatePredictionsTable_1(MLContext mlContext, IDataView dataView, ITransformer model)
 {
     var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
@@ -26,6 +33,8 @@ private static void CreatePredictionsTable_1(MLContext mlContext, IDataView data
     }
 
     // save a json file
-    Utils.SaveJsonFile(DATA_PATH + "StockPricePlot.json", ls);
+    Utils.SaveJsonFile(DATA_PATH + "StockPricePlot.json", ls, true);
 }
+#endregion
+
 ---------------------------------------------

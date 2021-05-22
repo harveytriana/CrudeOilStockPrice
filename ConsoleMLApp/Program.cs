@@ -3,6 +3,9 @@ using CrudeOilStockPrice.Shared;
 using System.Linq;
 //
 using static System.Console;
+using System.Globalization;
+using System;
+using System.Collections.Generic;
 
 namespace ConsoleMLApp
 {
@@ -76,7 +79,6 @@ namespace ConsoleMLApp
                 // optional
                 PredictionExample();
 
-                // optional
                 CreatePredictionsTable(mlContext, dataView, model);
             }
             else {
@@ -109,11 +111,14 @@ namespace ConsoleMLApp
         {
             var transformedData = model.Transform(dataView);
 
-            var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false).ToList();
+            var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
+
+            //WriteLine("Predictions Count: {0}", predictions.Count());
 
             // save a json file
-            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions);
+            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions.TakeLast(100));
         }
 
+       
     }
 }

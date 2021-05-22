@@ -3,8 +3,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Collections.Generic;
-using CrudeOilStockPrice.Shared;
 
 namespace ConsoleMLApp
 {
@@ -56,9 +54,13 @@ namespace ConsoleMLApp
             return file;
         }
 
-        public static void SaveJsonFile<T>(string file, T any)
+        public static void SaveJsonFile<T>(string file, T any, bool writeIdented = false)
         {
-            var json = JsonSerializer.Serialize(any);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = writeIdented,
+            };
+            var json = JsonSerializer.Serialize(any, options);
             File.WriteAllText(file, json, Encoding.UTF8);
         }
 

@@ -38,6 +38,7 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                 yAxes: [{
                     ticks: {
                         fontSize: 10,
+                        beginAtZero: true
                     }
                 }],
                 xAxes: [{

@@ -1,11 +1,7 @@
 ﻿using CrudeOilStockPrice.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using IO = System.IO;
 
 namespace CrudeOilStockPrice.Server.Controllers
@@ -14,12 +10,12 @@ namespace CrudeOilStockPrice.Server.Controllers
     [ApiController]
     public class StockPriceController : ControllerBase
     {
-        [HttpGet("GetCorrelate")]
-        public IEnumerable<StockPriceCorrelate> GetCorrelate()
+        [HttpGet("GetPredictions")]
+        public IEnumerable<StockPricePrediction> GetCorrelate()
         {
-            var jsonData = IO.File.ReadAllText(Startup.DATA_PATH + "StockPricePlot.json");
+            var jsonData = IO.File.ReadAllText(Startup.DATA_PATH + "Predictions.json");
 
-            return JsonSerializer.Deserialize<List<StockPriceCorrelate>>(jsonData);
+            return JsonSerializer.Deserialize<List<StockPricePrediction>>(jsonData);
         }
     }
 }

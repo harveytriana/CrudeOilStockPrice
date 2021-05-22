@@ -4,14 +4,14 @@
 @using CrudeOilStockPrice.Shared
 @using System.Text.Json
 
-<h1>Crude Oil Stock Price 2000, Predictor</h1>
+<h1>Crude Oil Stock Price, Predictor</h1>
 <hr />
 <div>
     <canvas id="canvas-1" width="600" height="300"></canvas>
 </div>
 <h4>Data Analisys</h4>
 <div>
-    @if (correlate == null)
+    @if (data == null)
     {
         <p><em>Loading...</em></p>
     }
@@ -26,12 +26,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var i in correlate)
+                @foreach (var i in data)
                 {
                     <tr>
-                        <td>@i.Date.ToShortDateString()</td>
+                        <td>@i.Date</td>
                         <td>$ @i.Price.ToString("N2")</td>
-                        <td>$ @i.PredictedPrice.ToString("N2")</td>
+                        <td>$ @i.Score.ToString("N2")</td>
                     </tr>
                 }
             </tbody>
@@ -91,11 +91,9 @@
 </div>
 
 @code {
-    List<StockPriceCorrelate> data;
+    List<StockPricePrediction> data;
 
     IJSObjectReference module;
-
-    List<StockPriceCorrelate> correlate;
 
     bool disableCommand;
 
@@ -115,16 +113,16 @@
 
     async Task DrawChart()
     {
-        var q = await _httpClient.GetFromJsonAsync<List<StockPriceCorrelate>>("api/StockPrice/GetCorrelate");
+        var q = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>("api/StockPrice/GetPredictions");
 
-        var labels = q.Select(x => FormatDate(x.Date)).ToList();
+        var labels = q.Select(x => x.Date).ToList();
         var dataSet1 = q.Select(x => x.Price).ToList();
-        var dataSet2 = q.Select(x => x.PredictedPrice).ToList();
+        var dataSet2 = q.Select(x => x.Score).ToList();
 
         await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
 
         // populate table
-        correlate = q;
+        data = q;
     }
 
     string FormatDate(DateTime date) => date.ToString("dd-MMM-yyyy").Replace(".", "");
