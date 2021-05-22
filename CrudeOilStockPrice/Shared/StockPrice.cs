@@ -13,7 +13,7 @@ namespace CrudeOilStockPrice.Shared
         [LoadColumn(6)] public float Volume { get; set; }
     }
 
-    public class StockPricePrediction
+    public class StockPricePrediction: StockPrice
     {
         public float Score { get; set; }
     }

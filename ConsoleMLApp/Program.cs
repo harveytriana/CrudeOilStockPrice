@@ -1,20 +1,15 @@
 ﻿using Microsoft.ML;
-using System;
 using CrudeOilStockPrice.Shared;
 using System.Linq;
-using Microsoft.ML.Transforms;
-using Microsoft.ML.Trainers.FastTree;
-using System.Collections.Generic;
 //
 using static System.Console;
-using System.Globalization;
 
 namespace ConsoleMLApp
 {
     class Program
     {
         static readonly string
-            DATA_PATH = @"C:\_study\ML\CrudeOilStockPrice\CrudeOilStockPrice\Server\Data\",
+            DATA_PATH = @"C:\_study\Blazor\Intents\CrudeOilStockPrice\CrudeOilStockPrice\Server\Data\",
             TRAIN_DATA = DATA_PATH + "crudeoil_price-raw.csv",
             MODEL_FILE = DATA_PATH + "crudeoil-price-model.zip";
 
@@ -34,6 +29,8 @@ namespace ConsoleMLApp
             MLContext mlContext = new(seed: 0);
 
             var dataView = mlContext.Data.LoadFromTextFile<StockPrice>(dataFile, hasHeader: true, separatorChar: ',');
+
+            Utils.LogDataView(dataView, "Data File");
 
             // transform data
             var pipeline = mlContext.Transforms
@@ -95,7 +92,8 @@ namespace ConsoleMLApp
 
             var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
 
-            var example = new StockPrice {
+            var example = new StockPrice
+            {
                 Date = "2000-03-22",
                 // others fields are not features
             };
@@ -109,29 +107,12 @@ namespace ConsoleMLApp
 
         private static void CreatePredictionsTable(MLContext mlContext, IDataView dataView, ITransformer model)
         {
-            var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
+            var transformedData = model.Transform(dataView);
 
-            var sp = new StockPrice();
-            var dates = dataView.Preview().ColumnView[0];
-            var prices = dataView.Preview().ColumnView[5];
-
-            var ls = new List<StockPriceCorrelate>();
-
-            for (int i = 0; i < dates.Values.Length; i++) {
-                sp.Date = dates.Values[i].ToString();
-                sp.Price = float.Parse(prices.Values[i].ToString());
-                float p = predictionEngine.Predict(sp).Score;
-                WriteLine($"{sp.Date}\t{sp.Price:N2}\t{p:N2}");
-
-                ls.Add(new StockPriceCorrelate {
-                    Date = DateTime.ParseExact(sp.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    Price = sp.Price,
-                    PredictedPrice = p
-                });
-            }
+            var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false).ToList();
 
             // save a json file
-            Utils.SaveJsonFile(DATA_PATH + "StockPricePlot.json", ls);
+            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions);
         }
 
     }

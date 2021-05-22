@@ -3,6 +3,8 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Collections.Generic;
+using CrudeOilStockPrice.Shared;
 
 namespace ConsoleMLApp
 {
@@ -59,5 +61,19 @@ namespace ConsoleMLApp
             var json = JsonSerializer.Serialize(any);
             File.WriteAllText(file, json, Encoding.UTF8);
         }
+
+        #region Development Data Path
+        static string _p;
+        public static string DataPath {
+            get {
+                if (_p == null) {
+                    var s = AppDomain.CurrentDomain.BaseDirectory;
+                    _p = s.Substring(0, s.IndexOf("bin")) + "Data\\";
+                }
+                return _p;
+            }
+        }
+        #endregion
+
     }
 }
