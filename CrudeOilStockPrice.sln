@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Server", "CrudeOilStockPrice\Server\CrudeOilStockPrice.Server.csproj", "{EA458F92-3B4C-44C4-862D-642D24741A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPrice.Server", "CrudeOilStockPrice\Server\CrudeOilStockPrice.Server.csproj", "{EA458F92-3B4C-44C4-862D-642D24741A72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Client", "CrudeOilStockPrice\Client\CrudeOilStockPrice.Client.csproj", "{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPrice.Client", "CrudeOilStockPrice\Client\CrudeOilStockPrice.Client.csproj", "{FDCC5D75-9ECE-4D70-A566-B69D25B6E303}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudeOilStockPrice.Shared", "CrudeOilStockPrice\Shared\CrudeOilStockPrice.Shared.csproj", "{70798590-A7E5-4E6D-B228-B0A0FA6F4417}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPrice.Shared", "CrudeOilStockPrice\Shared\CrudeOilStockPrice.Shared.csproj", "{70798590-A7E5-4E6D-B228-B0A0FA6F4417}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMLApp", "ConsoleMLApp\ConsoleMLApp.csproj", "{522F09AC-80D3-4572-B485-940AD7768045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMLApp", "ConsoleMLApp\ConsoleMLApp.csproj", "{522F09AC-80D3-4572-B485-940AD7768045}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

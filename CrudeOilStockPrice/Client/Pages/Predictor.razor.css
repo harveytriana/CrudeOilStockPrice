@@ -13,6 +13,8 @@
 .td-inf {
     width: 170px;
     font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 input {

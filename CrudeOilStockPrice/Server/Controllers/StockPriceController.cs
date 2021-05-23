@@ -17,5 +17,13 @@ namespace CrudeOilStockPrice.Server.Controllers
 
             return JsonSerializer.Deserialize<List<StockPricePrediction>>(jsonData);
         }
+
+        [HttpGet("GetMetrics")]
+        public AverageMetrics GetMetrics()
+        {
+            var jsonData = IO.File.ReadAllText(Startup.DATA_PATH + "AverageMetrics.json");
+
+            return JsonSerializer.Deserialize<AverageMetrics>(jsonData);
+        }
     }
 }

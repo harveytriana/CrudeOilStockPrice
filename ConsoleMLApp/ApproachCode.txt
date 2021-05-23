@@ -38,3 +38,6 @@ private static void CreatePredictionsTable_1(MLContext mlContext, IDataView data
 #endregion
 
 ---------------------------------------------
+
+Razor Page
+string FormatDate(DateTime date) => date.ToString("dd-MMM-yyyy").Replace(".", "");

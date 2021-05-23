@@ -55,31 +55,37 @@ namespace ConsoleMLApp
             // EVALUATE
             var crossValidate = mlContext.Regression.CrossValidate(dataView, pipeline, numberOfFolds: 5, labelColumnName: "Price");
 
-            var L1 = crossValidate.Select(r => r.Metrics.MeanAbsoluteError);
-            var L2 = crossValidate.Select(r => r.Metrics.MeanSquaredError);
-            var MS = crossValidate.Select(r => r.Metrics.RootMeanSquaredError);
-            var LF = crossValidate.Select(r => r.Metrics.LossFunction);
-            var R2 = crossValidate.Select(r => r.Metrics.RSquared);
+            var metrics = new AverageMetrics
+            {
+                MeanAbsoluteError = crossValidate.Select(r => r.Metrics.MeanAbsoluteError).Average(),
+                MeanSquaredError = crossValidate.Select(r => r.Metrics.MeanSquaredError).Average(),
+                RootMeanSquaredError = crossValidate.Select(r => r.Metrics.RootMeanSquaredError).Average(),
+                LossFunction = crossValidate.Select(r => r.Metrics.LossFunction).Average(),
+                RSquared = crossValidate.Select(r => r.Metrics.RSquared).Average()
+            };
 
             WriteLine($"************************************************");
             WriteLine($" Metrics for Regression model");
             WriteLine($"*-----------------------------------------------");
-            WriteLine($" Average L1 Loss:       {L1.Average():0.###}");
-            WriteLine($" Average L2 Loss:       {L2.Average():0.###}");
-            WriteLine($" Average RMS:           {MS.Average():0.###}");
-            WriteLine($" Average Loss Function: {LF.Average():0.###}");
-            WriteLine($" Average R-squared:     {R2.Average():0.###}");
+            WriteLine($" Average L1 Loss:       {metrics.MeanAbsoluteError:0.###}");
+            WriteLine($" Average L2 Loss:       {metrics.MeanSquaredError:0.###}");
+            WriteLine($" Average RMS:           {metrics.RootMeanSquaredError:0.###}");
+            WriteLine($" Average Loss Function: {metrics.LossFunction:0.###}");
+            WriteLine($" Average R-squared:     {metrics.RSquared:0.###}");
             WriteLine($"************************************************\n");
 
             WriteLine("Wrap up");
-            if (R2.Average() > 0.8) {
+            if (metrics.RSquared > 0.8) {
                 mlContext.Model.Save(model, dataView.Schema, MODEL_FILE);
                 WriteLine("The model was published.");
+
+                Utils.SaveJsonFile(DATA_PATH + "AverageMetrics.json", metrics, true);
 
                 // optional
                 PredictionExample();
 
-                CreatePredictionsTable(mlContext, dataView, model);
+                // for ui data
+                CreatePredictionsFile(mlContext, dataView, model);
             }
             else {
                 WriteLine("The model is not accurate enough.");
@@ -96,7 +102,7 @@ namespace ConsoleMLApp
 
             var example = new StockPrice
             {
-                Date = "2000-03-22",
+                Date = "2020-03-22",
                 // others fields are not features
             };
 
@@ -107,18 +113,16 @@ namespace ConsoleMLApp
             WriteLine($"Predicted Price: {prediction.Score}\n\n");
         }
 
-        private static void CreatePredictionsTable(MLContext mlContext, IDataView dataView, ITransformer model)
+        private static void CreatePredictionsFile(MLContext mlContext, IDataView dataView, ITransformer model)
         {
             var transformedData = model.Transform(dataView);
 
             var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
 
-            //WriteLine("Predictions Count: {0}", predictions.Count());
-
             // save a json file
             Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions.TakeLast(100));
         }
 
-       
+
     }
 }

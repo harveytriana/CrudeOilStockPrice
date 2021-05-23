@@ -6,17 +6,22 @@
 
 <h1>Crude Oil Stock Price, Predictor</h1>
 <hr />
+<p>
+    An illustrative example of interface and consumption of a model created with Microsoft.ML.
+    Dataset Source: Crude Oil Stock Price From 01-Jan-2000 to 27-July-2020
+    <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price">»»</a>
+</p>
+<br />
+<h4>Plot of results</h4>
 <div>
     <canvas id="canvas-1" width="600" height="300"></canvas>
 </div>
 <h4>Data Analisys</h4>
 <div>
-    @if (data == null)
-    {
-        <p><em>Loading...</em></p>
+    @if (data == null) {
+        <h5>Loading...</h5>
     }
-    else
-    {
+    else {
         <table class="table table-sm" style="font-family:'Calibri';">
             <thead>
                 <tr>
@@ -26,8 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var i in data)
-                {
+                @foreach (var i in data) {
                     <tr>
                         <td>@i.Date</td>
                         <td>$ @i.Price.ToString("N2")</td>
@@ -40,58 +44,65 @@
 </div>
 <br />
 <div>
-    <table cellpadding="4">
-        <tr>
-             <td valign="top">
-                <h6>Metrics for Regression model</h6>
-                <table class="table table-sm" style="font-family:'Calibri';">
-                    <tr>
-                        <td class="td-inf">Average L1 Loss</td>
-                        <td>12.1233</td>
-                    </tr>
-                    <tr>
-                        <td class="td-inf">Average L2 Loss</td>
-                        <td>12.1233</td>
-                    </tr>
-                    <tr>
-                        <td class="td-inf">Average RMS</td>
-                        <td>12.1233</td>
-                    </tr>
-                    <tr>
-                        <td class="td-inf">Average Loss Function</td>
-                        <td>12.1233</td>
-                    </tr>
-                    <tr>
-                        <td class="td-inf">Average R-squared</td>
-                        <td>12.1233</td>
-                    </tr>
-                </table>
-            </td>
-            <td valign="top">
-                <h6>User Prediction</h6>
-                <table class="table table-sm" style="font-family:'Calibri';">
-                    <tr>
-                        <td class="td-inf">Input Date</td>
-                        <td>
-                            <input value="2000-03-22" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="td-inf">Prediction</td>
-                        <td style="color: rgb(33,199,90)">$140.23</td>
-                    </tr>
-                    <tr>
-                        <td class="td-inf">Status</td>
-                        <td style="color:slategray">Press enter to calculate.</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+    @if (averageMetrics == null) {
+        <h5>Loading...</h5>
+    }
+    else {
+        <table cellpadding="4">
+            <tr>
+                <td valign="top">
+                    <h6>Average metrics of regression</h6>
+                    <table class="table table-sm" style="font-family:'Calibri';">
+                        <tr>
+                            <td class="td-inf">Mean Absolute Error</td>
+                            <td>@averageMetrics.MeanAbsoluteError.ToString("N4")</td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf">Mean Squared Error</td>
+                            <td>@averageMetrics.MeanSquaredError.ToString("N4")</td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf">Root Mean Squared Error</td>
+                            <td>@averageMetrics.RootMeanSquaredError.ToString("N4")</td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf">Loss Function</td>
+                            <td>@averageMetrics.LossFunction.ToString("N4")</td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf">R-Squared</td>
+                            <td>@averageMetrics.RSquared.ToString("N4")</td>
+                        </tr>
+                    </table>
+                </td>
+                <td valign="top">
+                    <h6>User Prediction</h6>
+                    <table class="table table-sm" style="font-family:'Calibri';">
+                        <tr>
+                            <td class="td-inf">Input Date</td>
+                            <td>
+                                <input value="2000-03-22" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf">Prediction</td>
+                            <td style="color: rgb(33,199,90)">$140.23</td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf">Status</td>
+                            <td style="color:slategray">Press enter to calculate.</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    }
 </div>
 
 @code {
     List<StockPricePrediction> data;
+
+    AverageMetrics averageMetrics;
 
     IJSObjectReference module;
 
@@ -103,6 +114,7 @@
     {
         await GetModule();
         await DrawChart();
+        await GetMetrics();
     }
 
     async Task GetModule()
@@ -125,20 +137,21 @@
         data = q;
     }
 
-    string FormatDate(DateTime date) => date.ToString("dd-MMM-yyyy").Replace(".", "");
+    async Task GetMetrics()
+    {
+        averageMetrics = await _httpClient.GetFromJsonAsync<AverageMetrics>("api/StockPrice/GetMetrics");
+    }
 
     async Task GetPrediction()
     {
         disableCommand = true;
-        try
-        {
+        try {
             //var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/ml/prediction", new StockPrice { Date = "" });
             //var json = await response.Content.ReadAsStringAsync();
             //var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json);
             //score = predictionData != null ? predictionData.Score : 0;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             Console.WriteLine("Exception in GetPrediction:\n{0}", e.Message);
         }
         await Task.Delay(2000);
