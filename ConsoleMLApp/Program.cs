@@ -43,7 +43,7 @@ namespace ConsoleMLApp
             // transform data
             var pipeline = mlContext.Transforms
                 // the output of the model
-                .CopyColumns(outputColumnName: "Label", inputColumnName: "Price")
+                .CopyColumns(outputColumnName: "Label", inputColumnName: "Close")
 
                 // transforms to numeric features
                 .Append(mlContext.Transforms.Text.FeaturizeText("DateNumber", "Date"))
@@ -52,13 +52,13 @@ namespace ConsoleMLApp
                 .Append(mlContext.Transforms.Concatenate("Features", "DateNumber"))
 
                 // add the learning algorithm
-                .Append(mlContext.Regression.Trainers.FastTree(labelColumnName: "Price", featureColumnName: "Features"));
+                .Append(mlContext.Regression.Trainers.FastTree(labelColumnName: "Close", featureColumnName: "Features"));
 
             // train the model
             var model = pipeline.Fit(dataView);
 
             // EVALUATE
-            var crossValidate = mlContext.Regression.CrossValidate(dataView, pipeline, numberOfFolds: 5, labelColumnName: "Price");
+            var crossValidate = mlContext.Regression.CrossValidate(dataView, pipeline, numberOfFolds: 5, labelColumnName: "Close");
 
             var metrics = new AverageMetrics
             {
