@@ -4,7 +4,7 @@
 @using CrudeOilStockPrice.Shared
 @using System.Text.Json
 
-<h1>Crude Oil Stock Price, Predictor</h1>
+<h2>Crude Oil Stock Price, Predictor</h2>
 <hr />
 <p>
     An illustrative example of interface and consumption of a model created with Microsoft.ML.
@@ -48,7 +48,7 @@
         <h5>Loading...</h5>
     }
     else {
-        <table cellpadding="4">
+        <table>
             <tr>
                 <td valign="top">
                     <h6>Average metrics of regression</h6>
@@ -74,6 +74,8 @@
                             <td>@averageMetrics.RSquared.ToString("N4")</td>
                         </tr>
                     </table>
+                </td>
+                <td style="width:20px;">
                 </td>
                 <td valign="top">
                     <h6>User Prediction</h6>

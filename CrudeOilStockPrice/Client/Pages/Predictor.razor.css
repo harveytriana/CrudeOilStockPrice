@@ -15,6 +15,7 @@
     font-weight: bold;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width:300px;
 }
 
 input {
