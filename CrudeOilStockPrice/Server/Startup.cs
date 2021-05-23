@@ -1,3 +1,4 @@
+using CrudeOilStockPrice.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,9 @@ namespace CrudeOilStockPrice.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // application services
+            services.AddSingleton<StockPricePredictor>();
 
             // SignalR
             services.AddSignalR();

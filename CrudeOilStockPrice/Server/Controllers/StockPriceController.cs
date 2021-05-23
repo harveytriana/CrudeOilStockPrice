@@ -1,4 +1,5 @@
-﻿using CrudeOilStockPrice.Shared;
+﻿using CrudeOilStockPrice.Server.Services;
+using CrudeOilStockPrice.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -10,6 +11,13 @@ namespace CrudeOilStockPrice.Server.Controllers
     [ApiController]
     public class StockPriceController : ControllerBase
     {
+        StockPricePredictor _predictor;
+
+        public StockPriceController(StockPricePredictor predictor)
+        {
+            _predictor = predictor;
+        }
+
         [HttpGet("GetPredictions")]
         public IEnumerable<StockPricePrediction> GetCorrelate()
         {
@@ -24,6 +32,12 @@ namespace CrudeOilStockPrice.Server.Controllers
             var jsonData = IO.File.ReadAllText(Startup.DATA_PATH + "AverageMetrics.json");
 
             return JsonSerializer.Deserialize<AverageMetrics>(jsonData);
+        }
+
+        [HttpPost("Prediction")]
+        public StockPricePrediction Prediction([FromBody] StockPrice input)
+        {
+            return _predictor.Predict(input);
         }
     }
 }

@@ -38,7 +38,11 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                 yAxes: [{
                     ticks: {
                         fontSize: 10,
-                        beginAtZero: true
+                        min: 0,
+                        max: 60
+                    },
+                    gridLines: {
+                        drawBorder: false
                     }
                 }],
                 xAxes: [{
@@ -48,9 +52,9 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                         fontFamily: 'Lucida Console',
                         fontColor: 'transparent'
                     },
-                    //gridLines: {
-                    //    display: false
-                    //}
+                    gridLines: {
+                        drawBorder: false
+                    }
                 }]
             },
             tooltips: {

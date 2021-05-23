@@ -18,6 +18,11 @@ namespace ConsoleMLApp
 
         static void Main()
         {
+            string date = "2021-12-23";
+            if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue)) {
+                //Parsed Successfully   
+            }
+
             WriteLine("Crude Oil Stock Price");
 
             // data exloration previous works
