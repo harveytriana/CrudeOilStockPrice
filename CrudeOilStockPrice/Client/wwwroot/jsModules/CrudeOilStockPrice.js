@@ -64,6 +64,8 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
     });
 }
 
+
+// FIT PLOT SIZE
 const chartContainer = document.getElementById('container');
 
 function fitPlotWidth() {

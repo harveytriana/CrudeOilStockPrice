@@ -21,8 +21,16 @@ input {
     border: none !important;
     font-family: 'Calibri';
     font-size: 13px;
+    width:120px;
 }
 
     textarea:focus, input:focus {
         outline: none;
     }
+
+.command{
+    cursor:pointer;
+    margin-left:10px;
+    margin-right:10px;
+    color:cadetblue;
+}

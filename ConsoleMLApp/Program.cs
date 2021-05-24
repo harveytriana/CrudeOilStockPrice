@@ -3,9 +3,6 @@ using CrudeOilStockPrice.Shared;
 using System.Linq;
 //
 using static System.Console;
-using System.Globalization;
-using System;
-using System.Collections.Generic;
 
 namespace ConsoleMLApp
 {
@@ -18,11 +15,6 @@ namespace ConsoleMLApp
 
         static void Main()
         {
-            string date = "2021-12-23";
-            if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue)) {
-                //Parsed Successfully   
-            }
-
             WriteLine("Crude Oil Stock Price");
 
             // data exloration previous works
@@ -125,8 +117,8 @@ namespace ConsoleMLApp
             var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
 
             // save a json file
-            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions.TakeLast(100));
-            Utils.SaveJsonFile(DATA_PATH + "CrudeOilStockPrice.json", predictions, true);
+            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions.TakeLast(125));
+            //Utils.SaveJsonFile(DATA_PATH + "CrudeOilStockPrice.json", predictions, true);
         }
     }
 }

@@ -5,19 +5,14 @@
 @using System.Text.Json
 @using System.Globalization
 
-<h2>Crude Oil Stock Price, Predictor</h2>
+<h1>Crude Oil Stock Price</h1>
 <hr />
 <p>
     An illustrative example of interface and consumption of a model created with Microsoft.ML.
-    Dataset Source: Crude Oil Stock Price From 01-Jan-2000 to 27-July-2020
-    <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price">»»</a>
+    Dataset <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price" target="_blank"><b>»»</b></a>
 </p>
 <br />
-<h4>Plot of results</h4>
-<div style="height:300px;" id="container">
-    <canvas id="canvas-1"></canvas>
-</div>
-<h4>Data Analisys</h4>
+<h5>Crude Oil Stock Price from 01-Jan-2000 to 27-July-2020 (USD)</h5>
 <div>
     @if (data == null) {
         <h5>Loading...</h5>
@@ -47,13 +42,16 @@
         </table>
     }
 </div>
-<br />
+<h5>Real Data vs Machine Learning Prediction</h5>
+<div style="height:250px;" id="container">
+    <canvas id="canvas-1"></canvas>
+</div>
 <div>
     @if (averageMetrics == null) {
         <h5>Loading...</h5>
     }
     else {
-        <table>
+        <table style="width:100%">
             <tr>
                 <td valign="top">
                     <h6>Average metrics of regression</h6>
@@ -88,16 +86,13 @@
                         <tr>
                             <td class="td-inf">Input Date</td>
                             <td>
-                                <input value="@date" />
+                                <input type="date" @bind="date" />
+                                <span class="command" @onclick="GetPrediction">»»</span>
+                                <span style="color: rgb(33,199,90)">$ @score.ToString("N2")</span>
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-inf">Prediction</td>
-                            <td style="color: rgb(33,199,90)">$ @score.ToString("N2")</td>
-                        </tr>
-                        <tr>
-                            <td class="td-inf">Status</td>
-                            <td style="color:slategray">@prompt</td>
+                            <td colspan="2" style="color:slategray">@prompt</td>
                         </tr>
                     </table>
                 </td>
@@ -115,9 +110,9 @@
 
     bool disableCommand;
 
-    float score;
-    string date = "2020-03-23";
-    string prompt = "Press enter to calculate.";
+    float score = 27.45F;
+    DateTime date = DateTime.Today;
+    string prompt = "Press »» to calculate.";
 
     protected override async Task OnInitializedAsync()
     {
@@ -153,26 +148,30 @@
 
     async Task GetPrediction()
     {
-        // short validation
-        if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue) == false) {
-            prompt = "Invalid input, use yyyy-mm-dd";
+        if (disableCommand) {
             return;
         }
 
         disableCommand = true;
         prompt = "Processing...";
         try {
-            var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/ml/prediction", new StockPrice { Date = date });
+            var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/StockPrice/Prediction", new StockPrice {
+                Date = date.ToString("yyyy-MM-dd")
+            });
             var json = await response.Content.ReadAsStringAsync();
-            var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json);
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+            var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json, serializerOptions);
             score = predictionData != null ? predictionData.Score : 0;
         }
-        catch (Exception e) {
-            Console.WriteLine("Exception in GetPrediction:\n{0}", e.Message);
+        catch {
+            prompt = "Exception in GetPrediction(...)";
         }
         await Task.Delay(1000);
         disableCommand = false;
-        prompt = "Press enter to calculate.";
+        prompt = "Press »» to calculate.";
     }
 
 }
