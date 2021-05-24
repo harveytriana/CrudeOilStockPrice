@@ -126,9 +126,7 @@ namespace ConsoleMLApp
 
             // save a json file
             Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions.TakeLast(100));
-            // Utils.SaveJsonFile(@"C:\temp\CrudeOilStockPrice.json", predictions, true);
+            Utils.SaveJsonFile(DATA_PATH + "CrudeOilStockPrice.json", predictions, true);
         }
-
-
     }
 }

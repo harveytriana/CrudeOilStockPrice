@@ -34,15 +34,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var i in data) {
-                <tr>
-                    <td>@i.Date</td>
-                    <td>@i.High</td>
-                    <td>@i.Low</td>
-                    <td>$ @i.Close.ToString("N2")</td>
-                    <td>$ @i.Score.ToString("N2")</td>
-                </tr>
-                }
+                <Virtualize Items="data" Context="i">
+                    <tr>
+                        <td>@i.Date</td>
+                        <td>@i.High.ToString("N2")</td>
+                        <td>@i.Low.ToString("N2")</td>
+                        <td>@i.Close.ToString("N2")</td>
+                        <td>@i.Score.ToString("N2")</td>
+                    </tr>
+                </Virtualize>
             </tbody>
         </table>
     }
@@ -154,7 +154,7 @@
     async Task GetPrediction()
     {
         // short validation
-        if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue)==false) {
+        if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue) == false) {
             prompt = "Invalid input, use yyyy-mm-dd";
             return;
         }

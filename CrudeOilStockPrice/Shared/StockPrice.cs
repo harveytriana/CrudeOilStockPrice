@@ -9,7 +9,7 @@ namespace CrudeOilStockPrice.Shared
         [LoadColumn(2)] public float High { get; set; }
         [LoadColumn(3)] public float Low { get; set; }
         [LoadColumn(5)] public float Close { get; set; }
-        [LoadColumn(6)] public float Volume { get; set; }
+        //[LoadColumn(6)] public float Volume { get; set; }
     }
 
     public class StockPricePrediction: StockPrice
