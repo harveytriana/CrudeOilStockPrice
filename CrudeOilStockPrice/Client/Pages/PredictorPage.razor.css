@@ -34,3 +34,6 @@ input {
     margin-right:10px;
     color:cadetblue;
 }
+    .command:hover {
+        color: forestgreen;
+    }

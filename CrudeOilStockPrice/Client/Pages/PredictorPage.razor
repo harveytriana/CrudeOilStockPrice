@@ -148,10 +148,9 @@
 
     async Task GetPrediction()
     {
-        if (disableCommand) {
+        if (disableCommand) {// prevent call multiple
             return;
         }
-
         disableCommand = true;
         prompt = "Processing...";
         try {
