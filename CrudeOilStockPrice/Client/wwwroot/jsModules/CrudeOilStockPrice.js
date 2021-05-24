@@ -1,7 +1,6 @@
 ﻿import '../lib/chart.min.js'
 
 export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
-
     let ctx = document.getElementById(canvasId);
 
     new Chart(ctx, {
@@ -26,7 +25,8 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
             ]
         },
         options: {
-            responsive: false,
+            responsive: true,
+            maintainAspectRatio: false,
             legend: {
                 display: false
             },
@@ -39,7 +39,7 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                     ticks: {
                         fontSize: 10,
                         min: 0,
-                        max: 60
+                        max: 100
                     },
                     gridLines: {
                         drawBorder: false
@@ -64,21 +64,12 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
     });
 }
 
+const chartContainer = document.getElementById('container');
 
-function getRandomColor(opacy) {
-    var color = 'rgba(';
-    for (var i = 0; i < 3; i++) {
-        color += Math.floor(Math.random() * 255) + ',';
-    }
-    color += opacy.toString() + ')'; // add the transparency
-    return color;
+function fitPlotWidth() {
+    let ss = 270;
+    if (window.innerWidth < 640) ss = 50; // side menu is hide
+    chartContainer.setAttribute('style', 'width:' + (window.innerWidth - ss) + 'px');
 }
 
-
-function randomHSL() {
-    return "hsla(" + ~~(360 * Math.random()) + "," + "70%," + "70%,1)"
-}
-
-function getRandomColor1() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
+window.onresize = fitPlotWidth;
