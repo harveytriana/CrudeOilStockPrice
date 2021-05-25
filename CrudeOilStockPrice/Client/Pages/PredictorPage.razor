@@ -42,7 +42,21 @@
         </table>
     }
 </div>
-<h5>Real Data vs Machine Learning Prediction</h5>
+<table style="width:100%">
+    <tr>
+        <td>
+            <h5>Real Data vs Machine Learning Prediction</h5>
+        </td>
+        <td style="text-align:right" valign="top">
+            <select @bind="@year">
+                @for (int i = 2000; i < 2021; i++) {
+                    <option value="year_@i">@i</option>
+                }
+            </select>
+        </td>
+    </tr>
+</table>
+
 <div style="height:250px;" id="container">
     <canvas id="canvas-1"></canvas>
 </div>
@@ -115,8 +129,9 @@
 
     bool disableCommand;
 
-    float score = 27.45F;
+    float score;
     DateTime date = DateTime.Today;
+    string year;
     string prompt = "Press »» to calculate.";
 
     protected override async Task OnInitializedAsync()
@@ -124,6 +139,7 @@
         await GetModule();
         await DrawChart();
         await GetMetrics();
+        await GetPrediction();
     }
 
     async Task GetModule()

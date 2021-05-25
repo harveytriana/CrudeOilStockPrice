@@ -48,7 +48,6 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                 xAxes: [{
                     ticks: {
                         fontSize: 10,
-                        // display: false,
                         fontFamily: 'Lucida Console',
                         fontColor: 'transparent'
                     },
@@ -63,9 +62,7 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
         }
     });
 }
-
-
-// FIT PLOT SIZE
+// FIT PLOT WIDTH
 const chartContainer = document.getElementById('container');
 
 function fitPlotWidth() {
