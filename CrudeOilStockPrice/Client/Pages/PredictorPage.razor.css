@@ -18,22 +18,28 @@
 }
 
 input {
-    border: none !important;
+    border: 1px solid lightgray;
     font-family: 'Calibri';
     font-size: 13px;
-    width:120px;
 }
 
-    textarea:focus, input:focus {
+    input:focus {
         outline: none;
+        border: 1px solid lightgray;
+    }
+    /* override defaul icon for input type date */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        background-image: url('images/calendar.png');
+        width: 16px;
+        height: 16px;
     }
 
 .command{
     cursor:pointer;
     margin-left:10px;
     margin-right:10px;
-    color:cadetblue;
+    color:green;
 }
     .command:hover {
-        color: forestgreen;
+        color: lawngreen;
     }

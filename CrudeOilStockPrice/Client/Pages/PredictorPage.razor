@@ -8,8 +8,8 @@
 <h1>Crude Oil Stock Price</h1>
 <hr />
 <p>
-    An illustrative example of interface and consumption of a model created with Microsoft.ML.
-    Dataset <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price" target="_blank"><b>»»</b></a>
+    An illustrative example of interface and consumption of a model created with Microsoft.ML, 
+    <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price" target="_blank">kaggle dataset</a>
 </p>
 <br />
 <h5>Crude Oil Stock Price from 01-Jan-2000 to 27-July-2020 (USD)</h5>
@@ -84,11 +84,16 @@
                     <h6>User Prediction</h6>
                     <table class="table table-sm" style="font-family:'Calibri';">
                         <tr>
-                            <td class="td-inf">Input Date</td>
-                            <td>
+                            <td class="td-inf" valign="middle">Input Date</td>
+                            <td valign="middle">
                                 <input type="date" @bind="date" />
                                 <span class="command" @onclick="GetPrediction">»»</span>
-                                <span style="color: rgb(33,199,90)">$ @score.ToString("N2")</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-inf" valign="middle">Prediction Price</td>
+                            <td valign="middle">
+                                <h4 style="color: rgb(33,199,90);">$ @score.ToString("N2")</h4>
                             </td>
                         </tr>
                         <tr>
