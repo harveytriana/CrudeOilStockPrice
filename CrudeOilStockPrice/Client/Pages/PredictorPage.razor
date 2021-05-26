@@ -145,9 +145,9 @@
         await GetData();
         await DrawChart();
         await GetMetrics();
-        await GetPrediction();
-        await Task.Delay(300);
         hiddenPlot = false;
+        await InvokeAsync(StateHasChanged);
+        await GetPrediction();
     }
 
     async Task GetModule()
