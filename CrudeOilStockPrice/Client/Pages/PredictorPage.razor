@@ -8,16 +8,18 @@
 <h1>Crude Oil Stock Price</h1>
 <hr />
 <p>
-    An illustrative example of interface and consumption of a model created with Microsoft.ML, 
+    An illustrative example of interface and consumption of a model created with Microsoft.ML,
     <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price" target="_blank">kaggle dataset</a>
 </p>
 <br />
-<h5>Crude Oil Stock Price from 01-Jan-2000 to 27-July-2020 (USD)</h5>
 <div>
-    @if (data == null) {
+    @if (data == null)
+    {
         <h5>Loading...</h5>
     }
-    else {
+    else
+    {
+        <h5>Crude Oil Stock Price from 01-Jan-2000 to 27-July-2020 (USD)</h5>
         <table class="table table-sm" style="font-family:'Calibri'">
             <thead>
                 <tr>
@@ -40,31 +42,33 @@
                 </Virtualize>
             </tbody>
         </table>
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <h5>Real Data vs Machine Learning Prediction</h5>
+                </td>
+                <td style="text-align:right" valign="top">
+                    <select @bind="@year">
+                        @for (int i = 2000; i < 2021; i++)
+                        {
+                            <option value="year_@i">@i</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
     }
 </div>
-<table style="width:100%">
-    <tr>
-        <td>
-            <h5>Real Data vs Machine Learning Prediction</h5>
-        </td>
-        <td style="text-align:right" valign="top">
-            <select @bind="@year">
-                @for (int i = 2000; i < 2021; i++) {
-                    <option value="year_@i">@i</option>
-                }
-            </select>
-        </td>
-    </tr>
-</table>
 
+<!-- PLOT -->
 <div style="height:250px;" id="container">
-    <canvas id="canvas-1"></canvas>
+    <canvas id="canvas-1" hidden="@hiddenPlot"></canvas>
 </div>
+
+<!-- METRICS AND PREDICTION FORM -->
 <div>
-    @if (averageMetrics == null) {
-        <h5>Loading...</h5>
-    }
-    else {
+    @if (averageMetrics != null)
+    {
         <table style="width:100%">
             <tr>
                 <td valign="top">
@@ -133,13 +137,17 @@
     DateTime date = DateTime.Today;
     string year;
     string prompt = "Press »» to calculate.";
+    bool hiddenPlot = true;
 
     protected override async Task OnInitializedAsync()
     {
         await GetModule();
+        await GetData();
         await DrawChart();
         await GetMetrics();
         await GetPrediction();
+        await Task.Delay(300);
+        hiddenPlot = false;
     }
 
     async Task GetModule()
@@ -148,20 +156,22 @@
         module = await _jsRunTime.InvokeAsync<IJSObjectReference>("import", jsSource);
     }
 
+    async Task GetData()
+    {
+        data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>("api/StockPrice/GetPredictions");
+
+    }
     async Task DrawChart()
     {
-        var q = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>("api/StockPrice/GetPredictions");
-
-        var labels = q.Select(x => x.Date).ToList();
-        var dataSet1 = q.Select(x => x.Close).ToList();
-        var dataSet2 = q.Select(x => x.Score).ToList();
-
-        await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
-
-        // populate table
-        data = q;
+        var labels = data.Select(x => x.Date).ToList();
+        var dataSet1 = data.Select(x => x.Close).ToList();
+        var dataSet2 = data.Select(x => x.Score).ToList();
+        try
+        {
+            await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
+        }
+        catch (Exception e) { Console.WriteLine($"** ? {e.Message}"); }
     }
-
     async Task GetMetrics()
     {
         averageMetrics = await _httpClient.GetFromJsonAsync<AverageMetrics>("api/StockPrice/GetMetrics");
@@ -169,13 +179,16 @@
 
     async Task GetPrediction()
     {
-        if (disableCommand) {// prevent call multiple
+        if (disableCommand)
+        {// prevent call multiple
             return;
         }
         disableCommand = true;
         prompt = "Processing...";
-        try {
-            var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/StockPrice/Prediction", new StockPrice {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/StockPrice/Prediction", new StockPrice
+            {
                 Date = date.ToString("yyyy-MM-dd")
             });
             var json = await response.Content.ReadAsStringAsync();
@@ -186,7 +199,8 @@
             var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json, serializerOptions);
             score = predictionData != null ? predictionData.Score : 0;
         }
-        catch {
+        catch
+        {
             prompt = "Exception in GetPrediction(...)";
         }
         await Task.Delay(1000);
