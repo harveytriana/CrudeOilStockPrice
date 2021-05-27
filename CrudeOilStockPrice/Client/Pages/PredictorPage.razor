@@ -92,6 +92,10 @@
                             <td class="td-inf">R-Squared</td>
                             <td>@averageMetrics.RSquared.ToString("N4")</td>
                         </tr>
+                        <tr>
+                            <td class="td-inf">Data Density</td>
+                            <td>@data?.Count</td>
+                        </tr>
                     </table>
                 </td>
                 <td style="width:20px;">
@@ -103,7 +107,7 @@
                             <td class="td-inf" valign="middle">Input Date</td>
                             <td valign="middle">
                                 <input type="date" @bind="date" />
-                                <span class="command" @onclick="GetPrediction">»»</span>
+                                <span class="oi oi-aperture command" @onclick="GetPrediction"></span>
                             </td>
                         </tr>
                         <tr>
@@ -137,7 +141,7 @@
 
     float score;
     DateTime date;
-    string prompt = "Press »» to calculate.";
+    string prompt;
     bool hiddenPlot = true;
     List<int> years;
     int year;
@@ -162,7 +166,7 @@
     async Task GetData()
     {
         // by UI example. Use -1 to get all
-        int takeLast = 2000;
+        int takeLast = -1; // all (20 years)
 
         data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>($"api/StockPrice/GetPredictions/{takeLast}");
         // years 2021, 2020, ...
@@ -219,7 +223,7 @@
         }
         await Task.Delay(1000);
         disableCommand = false;
-        prompt = "Press »» to calculate.";
+        prompt = "Press update-icon to calculate.";
     }
 
     async Task ChangeYear(ChangeEventArgs e)
