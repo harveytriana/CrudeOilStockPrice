@@ -46,7 +46,7 @@
                     <h5>Real Data vs Machine Learning Prediction</h5>
                 </td>
                 <td style="text-align:right" valign="top">
-                    <select @bind="@year">
+                    <select @onchange="SelectYear">
                         @for (int i = 2000; i < 2021; i++) {
                             <option value="year_@i">@i</option>
                         }
@@ -135,7 +135,6 @@
 
     float score;
     DateTime date = DateTime.Today;
-    string year;
     string prompt = "Press »» to calculate.";
     bool hiddenPlot = true;
 
@@ -204,4 +203,14 @@
         prompt = "Press »» to calculate.";
     }
 
+
+    async Task SelectYear(ChangeEventArgs e)
+    {
+        // year = e.Value.ToString();
+
+        Console.WriteLine($"Selected: {e.Value}");
+        await Task.Delay(100);
+
+        // redraw plot
+    }
 }
