@@ -21,7 +21,7 @@ namespace ConsoleMLApp
             WriteLine("Crude Oil Stock Price");
 
             // data exloration previous works
-            var dataFile = Utils.CleanNullLines(TRAIN_DATA);
+            var dataFile = Utils.FilterNoiseLines(TRAIN_DATA);
 
             Train(dataFile);
         }

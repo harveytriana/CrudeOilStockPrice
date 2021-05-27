@@ -37,7 +37,7 @@ namespace ConsoleMLApp
             Console.WriteLine("\nCount: {0}\n", preview.RowView.Length);
         }
 
-        public static string CleanNullLines(string rawFile)
+        public static string FilterNoiseLines(string rawFile)
         {
             var ext = Path.GetExtension(rawFile);
             var file = rawFile.Replace(ext, $"_CLEAN{ext}");
@@ -47,7 +47,12 @@ namespace ConsoleMLApp
 
             string line = null;
             while ((line = reader.ReadLine()) != null) {
+                // the day nas not data
                 if (line.Contains("null")) {
+                    continue;
+                }
+                // filter negative values
+                if (line[10..].IndexOf('-') > 10) {
                     continue;
                 }
                 writer.WriteLine(line);
@@ -77,7 +82,6 @@ namespace ConsoleMLApp
             }
         }
         #endregion
-
 
         //? BUG? System.Text.Json.JsonException HResult=0x80131500
         // FAIL

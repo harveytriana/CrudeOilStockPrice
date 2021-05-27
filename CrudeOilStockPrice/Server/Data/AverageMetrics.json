@@ -1,7 +1,7 @@
 ﻿{
-  "MeanAbsoluteError": 2.0848448431079314,
-  "MeanSquaredError": 8.749140008076326,
-  "RootMeanSquaredError": 2.952502505707155,
-  "LossFunction": 8.74913999632398,
-  "RSquared": 0.9872477545555375
+  "MeanAbsoluteError": 2.062626928427238,
+  "MeanSquaredError": 8.513615621874052,
+  "RootMeanSquaredError": 2.913859056629721,
+  "LossFunction": 8.51361562151692,
+  "RSquared": 0.9875762512353834
 }

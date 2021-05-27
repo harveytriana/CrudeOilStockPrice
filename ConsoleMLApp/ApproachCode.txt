@@ -53,3 +53,10 @@ if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, Dat
 SQL
 USE [CrudeOilPrice]
 SELECT TOP(200) Date FROM [PriceHistory] ORDER BY Date DESC
+
+USE [CrudeOilPrice]
+SELECT Year(Date) AS [Year], COUNT(Year(Date)) as [Count]
+FROM PriceHistory
+GROUP BY Year(Date)
+HAVING COUNT(Year( Date))>1
+ORDER BY Year(Date)
