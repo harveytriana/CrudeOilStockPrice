@@ -1,9 +1,15 @@
 ﻿import '../lib/chart.min.js'
 
-export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
-    let ctx = document.getElementById(canvasId);
+var _ctx, _chart, _config;
 
-    new Chart(ctx, {
+export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
+    _ctx = document.getElementById(canvasId);
+    _config = getConfig(labels, dataSet1, dataSet2)
+    _chart = new Chart(_ctx, _config);
+}
+
+function getConfig(labels, dataSet1, dataSet2) {
+    return {
         type: 'line',
         data: {
             labels: labels,
@@ -39,7 +45,7 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                     ticks: {
                         fontSize: 10,
                         min: 0,
-                        max: 100
+                        // max: 120
                     },
                     gridLines: {
                         drawBorder: false
@@ -60,8 +66,16 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
                 mode: 'label'
             }
         }
-    });
+    }
 }
+
+export function UpdateChart(labels, dataSet1, dataSet2) {
+    _config.data.labels = labels;
+    _config.data.datasets[0].data = dataSet1;
+    _config.data.datasets[1].data = dataSet2;
+    _chart.update();
+}
+
 // FIT PLOT WIDTH
 const chartContainer = document.getElementById('container');
 

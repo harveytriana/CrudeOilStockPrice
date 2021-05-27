@@ -162,7 +162,7 @@
     async Task GetData()
     {
         // by UI example. Use -1 to get all
-        int takeLast = 200;
+        int takeLast = 2000;
 
         data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>($"api/StockPrice/GetPredictions/{takeLast}");
         // years 2021, 2020, ...
@@ -171,15 +171,20 @@
         year = years.First();
     }
 
-    async Task DrawChart()
+    async Task DrawChart(bool firstTime = true)
     {
         var labels = data.Where(x => x.Year == year).Select(x => x.Date).ToList();
         var dataSet1 = data.Where(x => x.Year == year).Select(x => x.Close).ToList();
         var dataSet2 = data.Where(x => x.Year == year).Select(x => x.Score).ToList();
         try {
-            await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
+            if (firstTime) {
+                await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
+            }
+            else {
+                await module.InvokeVoidAsync("UpdateChart", labels, dataSet1, dataSet2);
+            }
         }
-        catch (Exception e) { Console.WriteLine($"** ? {e.Message}"); }
+        catch (Exception e) { Console.WriteLine($"Excepton in DrawChart: {e.Message}"); }
     }
 
     async Task GetMetrics()
@@ -217,11 +222,11 @@
 
     async Task ChangeYear(ChangeEventArgs e)
     {
-        // year = e.Value.ToString();
-
-        Console.WriteLine($"Selected: {e.Value}");
-        await Task.Delay(100);
-
-        // redraw plot
+        var y = int.Parse(e.Value.ToString());
+        if (year != y) {
+            year = y;
+            await DrawChart(false);
+        }
     }
+
 }

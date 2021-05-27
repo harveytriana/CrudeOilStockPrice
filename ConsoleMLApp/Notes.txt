@@ -27,3 +27,5 @@ https://www.kaggle.com/blurryface94/crude-oil-prediction-with-facebook-s-prophet
 |4    FastForestRegression                  0.9147          5.71        59.59     7.72       5.5          4      |
 |5    SdcaRegression                        0.8882          6.47        78.11     8.84       2.5          5      |
 ------------------------------------------------------------------------------------------------------------------
+
+** filtrar cero
