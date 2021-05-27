@@ -30,7 +30,7 @@ namespace CrudeOilStockPrice.Server.Services
                 _predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(mlModel);
             }
             catch (Exception exception) {
-                Console.WriteLine("LoadModel Exception:\n" + exception.Message);
+                Console.WriteLine("StockPricePredictor Exception:\n" + exception.Message);
             }
         }
     }

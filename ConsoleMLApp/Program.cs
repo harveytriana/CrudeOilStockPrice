@@ -1,8 +1,11 @@
 ﻿using Microsoft.ML;
 using CrudeOilStockPrice.Shared;
 using System.Linq;
+using System.Collections.Generic;
 //
 using static System.Console;
+using System.Text.Json;
+using System.IO;
 
 namespace ConsoleMLApp
 {
@@ -116,9 +119,14 @@ namespace ConsoleMLApp
 
             var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
 
-            // save a json file
-            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions.TakeLast(125));
-            //Utils.SaveJsonFile(DATA_PATH + "CrudeOilStockPrice.json", predictions, true);
+            // save a json file last 125
+            Utils.SaveJsonFile(DATA_PATH + "PredictionsPartial.json", predictions.TakeLast(125));
+            // save a json file all
+            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions);
+
+            // TEST
+            // var z = JsonSerializer.Deserialize<List<StockPricePrediction>>(File.ReadAllText(DATA_PATH + "PredictionsPartial.json"));
+            // z.ForEach(x => WriteLine(x));
         }
     }
 }

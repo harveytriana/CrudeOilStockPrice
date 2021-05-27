@@ -10,8 +10,8 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
             datasets: [
                 {
                     data: dataSet1,
-                    pointRadius: 2,
-                    borderColor: 'rgba(64,128,128,0.7)',
+                    pointRadius: 3,
+                    borderColor: 'rgba(64,116,120,0.8)',
                     backgroundColor: 'transparent',
                     fill: false,
                     showLine: false

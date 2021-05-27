@@ -50,3 +50,6 @@ if (DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, Dat
 }
 
 
+SQL
+USE [CrudeOilPrice]
+SELECT TOP(200) Date FROM [PriceHistory] ORDER BY Date DESC

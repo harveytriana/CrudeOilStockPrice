@@ -12,8 +12,11 @@ namespace CrudeOilStockPrice.Shared
         //[LoadColumn(6)] public float Volume { get; set; }
     }
 
-    public class StockPricePrediction: StockPrice
+    public class StockPricePrediction : StockPrice
     {
         public float Score { get; set; }
+        public int Year => int.Parse(Date[0..4]);
+
+        public override string ToString() => $"{Date} | ${Close}";
     }
 }

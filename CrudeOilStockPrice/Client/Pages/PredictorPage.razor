@@ -40,15 +40,17 @@
                 </Virtualize>
             </tbody>
         </table>
+        <!-- PLOT HEADER -->
         <table style="width:100%">
             <tr>
                 <td>
                     <h5>Real Data vs Machine Learning Prediction</h5>
                 </td>
                 <td style="text-align:right" valign="top">
-                    <select @onchange="SelectYear">
-                        @for (int i = 2000; i < 2021; i++) {
-                            <option value="year_@i">@i</option>
+                    <span>Pick Year </span>
+                    <select @onchange="ChangeYear">
+                        @foreach (int i in years) {
+                            <option value="@i">@i</option>
                         }
                     </select>
                 </td>
@@ -137,10 +139,12 @@
     DateTime date = DateTime.Today;
     string prompt = "Press »» to calculate.";
     bool hiddenPlot = true;
+    List<int> years;
+    int year;
 
     protected override async Task OnInitializedAsync()
     {
-        await GetModule();
+        await GetScripts();
         await GetData();
         await DrawChart();
         await GetMetrics();
@@ -149,7 +153,7 @@
         await GetPrediction();
     }
 
-    async Task GetModule()
+    async Task GetScripts()
     {
         var jsSource = $"./jsModules/CrudeOilStockPrice.js?v={DateTime.Now.Ticks}";
         module = await _jsRunTime.InvokeAsync<IJSObjectReference>("import", jsSource);
@@ -157,19 +161,27 @@
 
     async Task GetData()
     {
-        data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>("api/StockPrice/GetPredictions");
+        // by UI example. Use -1 to get all
+        int takeLast = 200;
 
+        data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>($"api/StockPrice/GetPredictions/{takeLast}");
+        // years 2021, 2020, ...
+        years = data.Select(x => x.Year).Distinct().OrderByDescending(y => y).ToList();
+        // init value
+        year = years.First();
     }
+
     async Task DrawChart()
     {
-        var labels = data.Select(x => x.Date).ToList();
-        var dataSet1 = data.Select(x => x.Close).ToList();
-        var dataSet2 = data.Select(x => x.Score).ToList();
+        var labels = data.Where(x => x.Year == year).Select(x => x.Date).ToList();
+        var dataSet1 = data.Where(x => x.Year == year).Select(x => x.Close).ToList();
+        var dataSet2 = data.Where(x => x.Year == year).Select(x => x.Score).ToList();
         try {
             await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
         }
         catch (Exception e) { Console.WriteLine($"** ? {e.Message}"); }
     }
+
     async Task GetMetrics()
     {
         averageMetrics = await _httpClient.GetFromJsonAsync<AverageMetrics>("api/StockPrice/GetMetrics");
@@ -203,8 +215,7 @@
         prompt = "Press »» to calculate.";
     }
 
-
-    async Task SelectYear(ChangeEventArgs e)
+    async Task ChangeYear(ChangeEventArgs e)
     {
         // year = e.Value.ToString();
 

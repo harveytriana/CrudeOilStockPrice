@@ -2,6 +2,7 @@
 using CrudeOilStockPrice.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using IO = System.IO;
 
@@ -18,12 +19,15 @@ namespace CrudeOilStockPrice.Server.Controllers
             _predictor = predictor;
         }
 
-        [HttpGet("GetPredictions")]
-        public IEnumerable<StockPricePrediction> GetCorrelate()
+        [HttpGet("GetPredictions/{takeLast}")]
+        public IEnumerable<StockPricePrediction> GetPredictions(int takeLast)
         {
             var jsonData = IO.File.ReadAllText(Startup.DATA_PATH + "Predictions.json");
-
-            return JsonSerializer.Deserialize<List<StockPricePrediction>>(jsonData);
+            var data = JsonSerializer.Deserialize<List<StockPricePrediction>>(jsonData);
+            if (takeLast < 0) {
+                return data;
+            }
+            return data.ToList().TakeLast(takeLast);
         }
 
         [HttpGet("GetMetrics")]

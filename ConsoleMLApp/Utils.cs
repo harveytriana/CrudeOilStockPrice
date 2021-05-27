@@ -1,5 +1,6 @@
 ﻿using Microsoft.ML;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -76,6 +77,20 @@ namespace ConsoleMLApp
             }
         }
         #endregion
+
+
+        //? BUG? System.Text.Json.JsonException HResult=0x80131500
+        // FAIL
+        // var z = Utils.GetListFromJsonFile<List<StockPricePrediction>>(DATA_PATH + "PredictionsPartial.json");
+        // OK
+        // var z =JsonSerializer.Deserialize<List<StockPricePrediction>>(File.ReadAllText(DATA_PATH + "PredictionsPartial.json"));
+        public static List<T> GetListFromJsonFile<T>(string file)
+        {
+            var s = File.ReadAllText(file);
+            var z = JsonSerializer.Deserialize<List<T>>(s);
+            return z;
+        }
+
 
     }
 }
