@@ -18,6 +18,7 @@
     }
     else {
         <h5>Crude Oil Stock Price from 01-Jan-2000 to 27-July-2020 (USD)</h5>
+        <!-- DATA TABLE -->
         <table class="table table-sm" style="font-family:'Calibri'">
             <thead>
                 <tr>
@@ -40,6 +41,7 @@
                 </Virtualize>
             </tbody>
         </table>
+        <br style="height:6px;" />
         <!-- PLOT HEADER -->
         <table style="width:100%">
             <tr>
@@ -71,6 +73,7 @@
             <tr>
                 <td valign="top">
                     <h6>Average metrics of regression</h6>
+                    <!-- METRICS -->
                     <table class="table table-sm" style="font-family:'Calibri';">
                         <tr>
                             <td class="td-inf">Mean Absolute Error</td>
@@ -98,10 +101,11 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width:20px;">
-                </td>
+                <!-- separator-->
+                <td style="width:20px;"></td>
                 <td valign="top">
                     <h6>User Prediction</h6>
+                    <!-- PREDICTION FORM -->
                     <table class="table table-sm" style="font-family:'Calibri';">
                         <tr>
                             <td class="td-inf" valign="middle">Input Date</td>
@@ -132,18 +136,17 @@
 
 @code {
     List<StockPricePrediction> data;
-
+    List<int> years;
     AverageMetrics averageMetrics;
 
     IJSObjectReference module;
 
     bool disableCommand;
+    bool hiddenPlot = true;
+    string prompt;
 
     float score;
     DateTime date;
-    string prompt;
-    bool hiddenPlot = true;
-    List<int> years;
     int year;
 
     protected override async Task OnInitializedAsync()
@@ -200,7 +203,7 @@
 
     async Task GetPrediction()
     {
-        if (disableCommand) {// prevent call multiple
+        if (disableCommand) {// prevent multiple click
             return;
         }
         disableCommand = true;

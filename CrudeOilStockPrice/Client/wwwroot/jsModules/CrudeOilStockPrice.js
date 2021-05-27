@@ -14,7 +14,7 @@ function getConfig(labels, dataSet1, dataSet2) {
         data: {
             labels: labels,
             datasets: [
-                {
+                {// observed data
                     data: dataSet1,
                     pointRadius: 3,
                     borderColor: 'rgba(64,116,120,0.8)',
@@ -22,7 +22,7 @@ function getConfig(labels, dataSet1, dataSet2) {
                     fill: false,
                     showLine: false
                 },
-                {
+                {// prediction curve
                     data: dataSet2,
                     pointRadius: 0,
                     fill: false,
@@ -46,9 +46,6 @@ function getConfig(labels, dataSet1, dataSet2) {
                         fontSize: 10,
                         min: 10,
                         // max: 120
-                    },
-                    gridLines: {
-                        drawBorder: false
                     }
                 }],
                 xAxes: [{
@@ -56,9 +53,6 @@ function getConfig(labels, dataSet1, dataSet2) {
                         fontSize: 10,
                         fontFamily: 'Lucida Console',
                         fontColor: 'transparent'
-                    },
-                    gridLines: {
-                        drawBorder: false
                     }
                 }]
             },

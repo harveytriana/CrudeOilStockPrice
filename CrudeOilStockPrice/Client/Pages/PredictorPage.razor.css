@@ -1,6 +1,6 @@
 ﻿table tbody {
     display: block;
-    max-height: 140px;
+    max-height: 135px;
     overflow-y: scroll;
 }
 
