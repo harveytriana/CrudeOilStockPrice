@@ -136,7 +136,7 @@
     bool disableCommand;
 
     float score;
-    DateTime date = DateTime.Today;
+    DateTime date;
     string prompt = "Press »» to calculate.";
     bool hiddenPlot = true;
     List<int> years;
@@ -169,6 +169,8 @@
         years = data.Select(x => x.Year).Distinct().OrderByDescending(y => y).ToList();
         // init value
         year = years.First();
+        // last date
+        date = DateTime.ParseExact(data.Last().Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
     }
 
     async Task DrawChart(bool firstTime = true)

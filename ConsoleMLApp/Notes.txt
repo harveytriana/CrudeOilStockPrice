@@ -28,4 +28,3 @@ https://www.kaggle.com/blurryface94/crude-oil-prediction-with-facebook-s-prophet
 |5    SdcaRegression                        0.8882          6.47        78.11     8.84       2.5          5      |
 ------------------------------------------------------------------------------------------------------------------
 
-** filtrar cero

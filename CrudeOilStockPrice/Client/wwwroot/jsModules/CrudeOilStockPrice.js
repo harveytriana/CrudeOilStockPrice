@@ -44,7 +44,7 @@ function getConfig(labels, dataSet1, dataSet2) {
                 yAxes: [{
                     ticks: {
                         fontSize: 10,
-                        min: 0,
+                        min: 10,
                         // max: 120
                     },
                     gridLines: {
