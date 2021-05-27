@@ -10,7 +10,7 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
             datasets: [
                 {
                     data: dataSet1,
-                    pointRadius: 4,
+                    pointRadius: letPointRadius(),
                     borderColor: 'rgba(64,128,128,0.7)',
                     backgroundColor: 'transparent',
                     fill: false,
@@ -61,6 +61,14 @@ export function DrawChart(canvasId, labels, dataSet1, dataSet2) {
             }
         }
     });
+
+    function letPointRadius() {
+        console.log(labels.length);
+        if (labels.length <= 100) {
+            return 3;
+        }
+        return 4;
+    }
 }
 // FIT PLOT WIDTH
 const chartContainer = document.getElementById('container');

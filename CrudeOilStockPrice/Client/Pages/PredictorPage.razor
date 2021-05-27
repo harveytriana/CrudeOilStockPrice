@@ -13,12 +13,10 @@
 </p>
 <br />
 <div>
-    @if (data == null)
-    {
+    @if (data == null) {
         <h5>Loading...</h5>
     }
-    else
-    {
+    else {
         <h5>Crude Oil Stock Price from 01-Jan-2000 to 27-July-2020 (USD)</h5>
         <table class="table table-sm" style="font-family:'Calibri'">
             <thead>
@@ -49,8 +47,7 @@
                 </td>
                 <td style="text-align:right" valign="top">
                     <select @bind="@year">
-                        @for (int i = 2000; i < 2021; i++)
-                        {
+                        @for (int i = 2000; i < 2021; i++) {
                             <option value="year_@i">@i</option>
                         }
                     </select>
@@ -67,8 +64,7 @@
 
 <!-- METRICS AND PREDICTION FORM -->
 <div>
-    @if (averageMetrics != null)
-    {
+    @if (averageMetrics != null) {
         <table style="width:100%">
             <tr>
                 <td valign="top">
@@ -109,9 +105,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-inf" valign="middle">Prediction Price</td>
-                            <td valign="middle">
-                                <h4 style="color: rgb(33,199,90);">$ @score.ToString("N2")</h4>
+                            <td colspan="2">
+                                <h6>
+                                    Prediction Price
+                                </h6>
+                                <h4 style="color: rgb(33,199,90);">
+                                    $ @score.ToString("N2")
+                                </h4>
                             </td>
                         </tr>
                         <tr>
@@ -166,8 +166,7 @@
         var labels = data.Select(x => x.Date).ToList();
         var dataSet1 = data.Select(x => x.Close).ToList();
         var dataSet2 = data.Select(x => x.Score).ToList();
-        try
-        {
+        try {
             await module.InvokeVoidAsync("DrawChart", "canvas-1", labels, dataSet1, dataSet2);
         }
         catch (Exception e) { Console.WriteLine($"** ? {e.Message}"); }
@@ -179,14 +178,12 @@
 
     async Task GetPrediction()
     {
-        if (disableCommand)
-        {// prevent call multiple
+        if (disableCommand) {// prevent call multiple
             return;
         }
         disableCommand = true;
         prompt = "Processing...";
-        try
-        {
+        try {
             var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/StockPrice/Prediction", new StockPrice
             {
                 Date = date.ToString("yyyy-MM-dd")
@@ -199,8 +196,7 @@
             var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json, serializerOptions);
             score = predictionData != null ? predictionData.Score : 0;
         }
-        catch
-        {
+        catch {
             prompt = "Exception in GetPrediction(...)";
         }
         await Task.Delay(1000);
