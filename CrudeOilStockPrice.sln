@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPrice.Client",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudeOilStockPrice.Shared", "CrudeOilStockPrice\Shared\CrudeOilStockPrice.Shared.csproj", "{70798590-A7E5-4E6D-B228-B0A0FA6F4417}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMLApp", "ConsoleMLApp\ConsoleMLApp.csproj", "{522F09AC-80D3-4572-B485-940AD7768045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainerConsole", "TrainerConsole\TrainerConsole.csproj", "{522F09AC-80D3-4572-B485-940AD7768045}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

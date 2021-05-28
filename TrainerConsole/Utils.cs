@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace ConsoleMLApp
+namespace TrainerConsole
 {
     public class Utils
     {
@@ -48,7 +48,7 @@ namespace ConsoleMLApp
             string line = null;
             while ((line = reader.ReadLine()) != null) {
                 // the day nas not data
-                if (line.Contains("null")) {
+                if (line.Contains("null") || line.Contains("NaN")) {
                     continue;
                 }
                 // filter negative values
@@ -70,17 +70,20 @@ namespace ConsoleMLApp
             File.WriteAllText(file, json, Encoding.UTF8);
         }
 
-        #region Development Data Path
-        static string _p;
-        public static string DataPath {
+        #region Development Data Path on Server\Data
+        static string _dataPath;
+        static string DataPath {
             get {
-                if (_p == null) {
-                    var s = AppDomain.CurrentDomain.BaseDirectory;
-                    _p = s.Substring(0, s.IndexOf("bin")) + "Data\\";
+                if (_dataPath == null) {
+                    var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                    baseDir = baseDir.Substring(0, baseDir.IndexOf("bin"));
+                    var ns = typeof(Program).Namespace;
+                    _dataPath = baseDir.Replace(ns, @"CrudeOilStockPrice\Server\Data");
                 }
-                return _p;
+                return _dataPath;
             }
         }
+        public static string DataFile(string fileName) => Path.Combine(DataPath, fileName);
         #endregion
 
         //? BUG? System.Text.Json.JsonException HResult=0x80131500

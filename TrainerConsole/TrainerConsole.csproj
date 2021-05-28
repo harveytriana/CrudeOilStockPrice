@@ -14,6 +14,4 @@
     <ProjectReference Include="..\CrudeOilStockPrice\Shared\CrudeOilStockPrice.Shared.csproj" />
   </ItemGroup>
   
-  
-
 </Project>

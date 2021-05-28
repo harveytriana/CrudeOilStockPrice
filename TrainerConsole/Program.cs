@@ -1,20 +1,17 @@
-﻿using Microsoft.ML;
-using CrudeOilStockPrice.Shared;
+﻿using System;
 using System.Linq;
-using System.Collections.Generic;
+using Microsoft.ML;
+using CrudeOilStockPrice.Shared;
 //
 using static System.Console;
-using System.Text.Json;
-using System.IO;
 
-namespace ConsoleMLApp
+namespace TrainerConsole
 {
     class Program
     {
         static readonly string
-            DATA_PATH = @"C:\_study\Blazor\Intents\CrudeOilStockPrice\CrudeOilStockPrice\Server\Data\",
-            TRAIN_DATA = DATA_PATH + "crudeoil_price-raw.csv",
-            MODEL_FILE = DATA_PATH + "crudeoil-price-model.zip";
+            TRAIN_DATA = Utils.DataFile("crudeoil_price-raw.csv"),
+            MODEL_FILE = Utils.DataFile("crudeoil-price-model.zip");
 
         static void Main()
         {
@@ -26,7 +23,6 @@ namespace ConsoleMLApp
             Train(dataFile);
         }
 
-
         static void Train(string dataFile)
         {
             MLContext mlContext = new(seed: 0);
@@ -34,6 +30,8 @@ namespace ConsoleMLApp
             var dataView = mlContext.Data.LoadFromTextFile<StockPrice>(dataFile, hasHeader: true, separatorChar: ',');
 
             Utils.LogDataView(dataView, "Data File");
+
+            WriteLine("\nMaking Transforms");
 
             // transform data
             var pipeline = mlContext.Transforms
@@ -65,13 +63,13 @@ namespace ConsoleMLApp
             };
 
             WriteLine($"************************************************");
-            WriteLine($" Metrics for Regression model");
+            WriteLine($" Average Metrics for Regression model");
             WriteLine($"*-----------------------------------------------");
-            WriteLine($" Average L1 Loss:       {metrics.MeanAbsoluteError:0.###}");
-            WriteLine($" Average L2 Loss:       {metrics.MeanSquaredError:0.###}");
-            WriteLine($" Average RMS:           {metrics.RootMeanSquaredError:0.###}");
-            WriteLine($" Average Loss Function: {metrics.LossFunction:0.###}");
-            WriteLine($" Average R-squared:     {metrics.RSquared:0.###}");
+            WriteLine($" MeanAbsoluteError     {metrics.MeanAbsoluteError:0.###}");
+            WriteLine($" MeanSquaredError      {metrics.MeanSquaredError:0.###}");
+            WriteLine($" RootMeanSquaredError  {metrics.RootMeanSquaredError:0.###}");
+            WriteLine($" LossFunction          {metrics.LossFunction:0.###}");
+            WriteLine($" RSquared              {metrics.RSquared:0.###}");
             WriteLine($"************************************************\n");
 
             WriteLine("Wrap up");
@@ -79,10 +77,7 @@ namespace ConsoleMLApp
                 mlContext.Model.Save(model, dataView.Schema, MODEL_FILE);
                 WriteLine("The model was published.");
 
-                Utils.SaveJsonFile(DATA_PATH + "AverageMetrics.json", metrics, true);
-
-                // optional
-                PredictionExample();
+                Utils.SaveJsonFile(Utils.DataFile("AverageMetrics.json"), metrics, true);
 
                 // for ui data
                 CreatePredictionsFile(mlContext, dataView, model);
@@ -92,41 +87,26 @@ namespace ConsoleMLApp
             }
         }
 
-        static void PredictionExample()
-        {
-            var mlContext = new MLContext();
-
-            var model = mlContext.Model.Load(MODEL_FILE, out _);
-
-            var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
-
-            var example = new StockPrice
-            {
-                Date = "2020-03-22",
-                // others fields are not features
-            };
-
-            var prediction = predictionEngine.Predict(example);
-
-            WriteLine($"\nPrediction example:");
-            WriteLine($"Date: {example.Date}");
-            WriteLine($"Predicted Price: {prediction.Score}\n\n");
-        }
-
         private static void CreatePredictionsFile(MLContext mlContext, IDataView dataView, ITransformer model)
         {
             var transformedData = model.Transform(dataView);
 
             var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
 
-            // save a json file last 125
-            Utils.SaveJsonFile(DATA_PATH + "PredictionsPartial.json", predictions.TakeLast(125));
             // save a json file all
-            Utils.SaveJsonFile(DATA_PATH + "Predictions.json", predictions);
-
-            // TEST
-            // var z = JsonSerializer.Deserialize<List<StockPricePrediction>>(File.ReadAllText(DATA_PATH + "PredictionsPartial.json"));
-            // z.ForEach(x => WriteLine(x));
+            Utils.SaveJsonFile(Utils.DataFile("Predictions.json"), predictions);
         }
+
+        // TEST
+        //static void PredictionExample()
+        //{
+        //    var mlContext = new MLContext();
+        //    var model = mlContext.Model.Load(MODEL_FILE, out _);
+        //    var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
+        //    var example = new StockPrice { Date = "2018-01-01" };
+        //    var prediction = predictionEngine.Predict(example);
+        //    WriteLine($"\nPrediction example:");
+        //    WriteLine($"Date: {example.Date}, Predicted Price: {prediction.Score}\n\n");
+        //}
     }
 }
