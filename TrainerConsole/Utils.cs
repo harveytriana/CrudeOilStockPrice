@@ -47,12 +47,10 @@ namespace TrainerConsole
 
             string line = null;
             while ((line = reader.ReadLine()) != null) {
-                // the day nas not data
-                if (line.Contains("null") || line.Contains("NaN")) {
+                if (line.Contains("null") || line.Contains("NaN")) {// the day nas not data
                     continue;
                 }
-                // filter negative values
-                if (line[10..].IndexOf('-') > 10) {
+                if (line[10..].IndexOf('-') > 10) {// filter negative values
                     continue;
                 }
                 writer.WriteLine(line);
@@ -70,7 +68,7 @@ namespace TrainerConsole
             File.WriteAllText(file, json, Encoding.UTF8);
         }
 
-        #region Development Data Path on Server\Data
+        #region Development Data Path on BlazorServer\Data
         static string _dataPath;
         static string DataPath {
             get {
@@ -97,7 +95,6 @@ namespace TrainerConsole
             var z = JsonSerializer.Deserialize<List<T>>(s);
             return z;
         }
-
 
     }
 }

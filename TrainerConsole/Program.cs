@@ -15,7 +15,7 @@ namespace TrainerConsole
 
         static void Main()
         {
-            WriteLine("Crude Oil Stock Price");
+            WriteLine("Crude Oil Stock Price Model Trainer");
 
             // data exloration previous works
             var dataFile = Utils.FilterNoiseLines(TRAIN_DATA);
