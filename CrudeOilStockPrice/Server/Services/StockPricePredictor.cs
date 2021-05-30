@@ -1,4 +1,7 @@
-﻿using CrudeOilStockPrice.Shared;
+﻿// ==================================
+// BlazorSpread.net
+// ===================================
+using CrudeOilStockPrice.Shared;
 using Microsoft.ML;
 using System;
 

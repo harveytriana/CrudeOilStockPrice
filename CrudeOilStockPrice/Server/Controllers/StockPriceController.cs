@@ -1,4 +1,7 @@
-﻿using CrudeOilStockPrice.Server.Services;
+﻿// ==================================
+// BlazorSpread.net
+// ===================================
+using CrudeOilStockPrice.Server.Services;
 using CrudeOilStockPrice.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

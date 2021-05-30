@@ -1,4 +1,7 @@
-﻿using Microsoft.ML.Data;
+﻿// ==================================
+// BlazorSpread.net
+// ===================================
+using Microsoft.ML.Data;
 
 namespace CrudeOilStockPrice.Shared
 {

@@ -1,4 +1,7 @@
-﻿import '../lib/chart.min.js'
+﻿// ==================================
+// BlazorSpread.net
+// ===================================
+import '../lib/chart.min.js'
 
 var _ctx, _chart, _config;
 
