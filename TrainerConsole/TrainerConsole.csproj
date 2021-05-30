@@ -13,5 +13,13 @@
   <ItemGroup>
     <ProjectReference Include="..\CrudeOilStockPrice\Shared\CrudeOilStockPrice.Shared.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TrainerData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
   
 </Project>

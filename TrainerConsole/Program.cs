@@ -10,8 +10,8 @@ namespace TrainerConsole
     class Program
     {
         static readonly string
-            TRAIN_DATA = Utils.DataFile("crudeoil_price-raw.csv"),
-            MODEL_FILE = Utils.DataFile("crudeoil-price-model.zip");
+            TRAIN_DATA = Utils.DataPath("crudeoil_price-raw.csv"),
+            MODEL_FILE = Utils.PublishPath("crudeoil-price-model.zip");
 
         static void Main()
         {
@@ -77,7 +77,7 @@ namespace TrainerConsole
                 mlContext.Model.Save(model, dataView.Schema, MODEL_FILE);
                 WriteLine("The model was published.");
 
-                Utils.SaveJsonFile(Utils.DataFile("AverageMetrics.json"), metrics, true);
+                Utils.SaveJsonFile(Utils.PublishPath("AverageMetrics.json"), metrics, true);
 
                 // for ui data
                 CreatePredictionsFile(mlContext, dataView, model);
@@ -94,7 +94,7 @@ namespace TrainerConsole
             var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
 
             // save a json file all
-            Utils.SaveJsonFile(Utils.DataFile("Predictions.json"), predictions);
+            Utils.SaveJsonFile(Utils.PublishPath("Predictions.json"), predictions);
         }
 
         // TEST

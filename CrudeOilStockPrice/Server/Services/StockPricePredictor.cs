@@ -26,7 +26,7 @@ namespace CrudeOilStockPrice.Server.Services
             _predictionEngine = null;
             try {
                 var mlContext = new MLContext();
-                var mlModel = mlContext.Model.Load(Startup.DATA_PATH+ "crudeoil-price-model.zip", out _);
+                var mlModel = mlContext.Model.Load(Startup.DATA_PATH + "crudeoil-price-model.zip", out _);
                 _predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(mlModel);
             }
             catch (Exception exception) {
