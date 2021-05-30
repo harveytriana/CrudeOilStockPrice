@@ -47,9 +47,9 @@ namespace CrudeOilStockPrice.Server.Controllers
         [HttpGet("ReloadModel")]
         // Run from Trainer is the model was updated.
         // In a production case it should have authorization
-        public void ReloadModel()
+        public bool ReloadModel()
         {
-            _predictor.LoadModel();
+            return _predictor.LoadModel();
         }
     }
 }

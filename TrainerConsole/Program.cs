@@ -4,6 +4,8 @@ using Microsoft.ML;
 using CrudeOilStockPrice.Shared;
 //
 using static System.Console;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace TrainerConsole
 {
@@ -16,6 +18,9 @@ namespace TrainerConsole
         static void Main()
         {
             WriteLine("Crude Oil Stock Price Model Trainer");
+
+            PublishModel().Wait();
+            return;
 
             // data exloration previous works
             var dataFile = Utils.FilterNoiseLines(TRAIN_DATA);
@@ -108,5 +113,31 @@ namespace TrainerConsole
         //    WriteLine($"\nPrediction example:");
         //    WriteLine($"Date: {example.Date}, Predicted Price: {prediction.Score}\n\n");
         //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serverUrl"></param>
+        /// <returns></returns>
+        public static async Task PublishModel()
+        {
+            // publish
+            // AverageMetrics.json
+            // Predictions.json
+            // MODEL_FILE
+            // Update remote service for reload model
+
+            // api for upload files
+            var serverUrl = "http://localhost:8071";
+            var uri = serverUrl + "/api/FileUploader";
+
+            FileUploader.UploadFile(Utils.PublishPath("AverageMetrics.json"), uri).Wait();
+            FileUploader.UploadFile(Utils.PublishPath("Predictions.json"), uri).Wait();
+            FileUploader.UploadFile(MODEL_FILE, uri).Wait();
+
+            using (var httpClient = new HttpClient()) {
+                await httpClient.GetAsync(serverUrl + "/StockPrice/ReloadModel");
+            }
+        }
     }
 }

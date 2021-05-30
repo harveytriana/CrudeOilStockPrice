@@ -71,29 +71,6 @@ namespace TrainerConsole
         }
         #endregion
 
-        public static async Task PublishFile(string fileName)
-        {
-            // On producion publish file to Server 
-            // ... 
-            var url = "http://..";
-
-            using (var httpClient = new HttpClient()) {
-                httpClient.BaseAddress = new Uri("http://localhost:8071/");
-                using (var form = new MultipartFormDataContent()) {
-                    using (var fs = File.OpenRead(DataPath(fileName))) {
-                        using (var streamContent = new StreamContent(fs)) {
-                            using (var fileContent = new ByteArrayContent(await streamContent.ReadAsByteArrayAsync())) {
-                                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-                                // "file" parameter name should be the same as the server side input parameter name
-                                form.Add(fileContent, "file", fileName);
-                                var response = await httpClient.PostAsync(url, form);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         public static void LogDataView(IDataView dataView, string title = "", int maxRows = 50)
         {
             Console.WriteLine($"\n{title}");

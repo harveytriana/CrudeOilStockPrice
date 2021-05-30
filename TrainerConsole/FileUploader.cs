@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace TrainerConsole
 {
-    class FileUploader
+    public class FileUploader
     {
-        public static async Task<bool> UploadFile(string filePath, string uri = null)
+        public static async Task<bool> UploadFile(string filePath, string uri = null, bool prompt = true)
         {
+            if (prompt) {
+                Console.WriteLine($"Uploading {Path.GetFileName(filePath)} ...");
+            }
+
             if (uri == null) {// trajectory of the published in IIS
                 uri = "https://localhost:44308/api/FileUploader";
             }
@@ -28,7 +29,7 @@ namespace TrainerConsole
                 return true;
             }
             catch (Exception exception) {
-                Console.WriteLine($"Exception\n{exception.Message}");
+                Console.WriteLine($"Exception:\n{exception.Message}");
             }
             return false;
         }

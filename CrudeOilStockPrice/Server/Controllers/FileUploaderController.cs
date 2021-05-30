@@ -9,6 +9,7 @@ namespace CrudeOilStockPrice.Server.Controllers
     [ApiController]
     public class FileUploaderController : ControllerBase
     {
+        // ...in production this utility must be under authorization
         [HttpPost]
         public async Task<bool> Post(IFormFile file)
         {
