@@ -8,11 +8,9 @@ namespace TrainerConsole
 {
     public class FileUploader
     {
-        public static async Task<bool> UploadFile(string filePath, string uri = null, bool prompt = true)
+        public static async Task<bool> UploadFile(string filePath, string uri = null)
         {
-            if (prompt) {
-                Console.WriteLine($"Uploading {Path.GetFileName(filePath)} ...");
-            }
+            Console.WriteLine($"Posting {Path.GetFileName(filePath)} ...");
 
             if (uri == null) {// trajectory of the published in IIS
                 uri = "https://localhost:44308/api/FileUploader";

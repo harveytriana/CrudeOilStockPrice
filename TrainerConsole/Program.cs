@@ -1,11 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿// ==================================
+// BlazorSpread.net
+// ===================================
 using Microsoft.ML;
+using System;
+using System.Linq;
 using CrudeOilStockPrice.Shared;
-//
-using static System.Console;
 using System.Threading.Tasks;
 using System.Net.Http;
+//
+using static System.Console;
 
 namespace TrainerConsole
 {
@@ -18,9 +21,6 @@ namespace TrainerConsole
         static void Main()
         {
             WriteLine("Crude Oil Stock Price Model Trainer");
-
-            PublishModel().Wait();
-            return;
 
             // data exloration previous works
             var dataFile = Utils.FilterNoiseLines(TRAIN_DATA);
@@ -92,12 +92,11 @@ namespace TrainerConsole
             }
         }
 
+        // for blazor page 
         private static void CreatePredictionsFile(MLContext mlContext, IDataView dataView, ITransformer model)
         {
             var transformedData = model.Transform(dataView);
-
             var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
-
             // save a json file all
             Utils.SaveJsonFile(Utils.PublishPath("Predictions.json"), predictions);
         }
