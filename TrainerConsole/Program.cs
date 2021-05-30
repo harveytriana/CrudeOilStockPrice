@@ -113,11 +113,6 @@ namespace TrainerConsole
         //    WriteLine($"Date: {example.Date}, Predicted Price: {prediction.Score}\n\n");
         //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serverUrl"></param>
-        /// <returns></returns>
         public static async Task PublishModel()
         {
             // publish
