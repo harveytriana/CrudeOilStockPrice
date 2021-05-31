@@ -16,7 +16,7 @@ namespace TrainerConsole
             Console.WriteLine($"Posting {Path.GetFileName(filePath)} ...");
 
             if (uri == null) {// trajectory of the published in IIS
-                uri = "https://localhost:44308/api/FileUploader";
+                uri = "https://localhost:8071/api/FileUploader";
             }
             try {
                 using (var formContent = new MultipartFormDataContent()) {

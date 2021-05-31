@@ -49,7 +49,6 @@ namespace TrainerConsole
             if (_dataPath == null) {
                 var baseDir = AppDomain.CurrentDomain.BaseDirectory;
                 baseDir = baseDir.Substring(0, baseDir.IndexOf("bin"));
-                var ns = typeof(Program).Namespace;
                 _dataPath = baseDir + "Data";
             }
             return Path.Combine(_dataPath, fileName);
@@ -95,7 +94,6 @@ namespace TrainerConsole
                     break;
                 }
             }
-            Console.WriteLine("\nCount: {0}\n", preview.RowView.Length);
         }
     }
 }
