@@ -18,8 +18,8 @@ namespace CrudeOilStockPrice.Server.Services
 
         public StockPricePrediction Predict(StockPrice input)
         {
-            if (_predictionEngine == null) {// unexpected
-                return null;
+            if (_predictionEngine == null) {
+                return null; 
             }
             return _predictionEngine.Predict(input);
         }

@@ -113,22 +113,24 @@ namespace TrainerConsole
         //    WriteLine($"Date: {example.Date}, Predicted Price: {prediction.Score}\n\n");
         //}
 
-        public static async Task PublishModel()
+        public static async Task PublishModelToRemoteServer()
         {
-            // publish
-            // AverageMetrics.json
-            // Predictions.json
-            // MODEL_FILE
+            // TODO
+            // Upload AverageMetrics.json
+            // Upload Predictions.json
+            // Upload the model: MODEL_FILE
             // Update remote service for reload model
 
             // api for upload files
             var serverUrl = "http://localhost:8071";
             var uri = serverUrl + "/api/FileUploader";
 
+            // upload files
             FileUploader.UploadFile(Utils.PublishPath("AverageMetrics.json"), uri).Wait();
             FileUploader.UploadFile(Utils.PublishPath("Predictions.json"), uri).Wait();
             FileUploader.UploadFile(MODEL_FILE, uri).Wait();
 
+            // Update remote service for reload model
             using (var httpClient = new HttpClient()) {
                 await httpClient.GetAsync(serverUrl + "/StockPrice/ReloadModel");
             }

@@ -9,8 +9,10 @@
 <h1>Crude Oil Stock Price</h1>
 <hr />
 <p>
-    An illustrative example of interface and consumption of a model created with Microsoft.ML,
-    <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price" target="_blank">kaggle dataset</a>
+    An illustrative example of interface and consumption of a model created with ML.NET,
+    <a href="https://www.kaggle.com/awadhi123/crude-oil-stock-price" 
+       target="_blank">kaggle dataset
+    </a>
 </p>
 <br />
 <div>
@@ -136,7 +138,7 @@
 </div>
 
 @code {
-    // ==================================
+    // ===================================
     // BlazorSpread.net
     // ===================================
     List<StockPricePrediction> data;
@@ -174,8 +176,9 @@
     {
         // by UI example. Use -1 to get all
         int takeLast = -1; // all (20 years)
+        var url = $"api/StockPrice/GetPredictions/{takeLast}";
 
-        data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>($"api/StockPrice/GetPredictions/{takeLast}");
+        data = await _httpClient.GetFromJsonAsync<List<StockPricePrediction>>(url);
         // years 2021, 2020, ...
         years = data.Select(x => x.Year).Distinct().OrderByDescending(y => y).ToList();
         // init value
@@ -202,7 +205,8 @@
 
     async Task GetMetrics()
     {
-        averageMetrics = await _httpClient.GetFromJsonAsync<AverageMetrics>("api/StockPrice/GetMetrics");
+        var url = "api/StockPrice/GetMetrics";
+        averageMetrics = await _httpClient.GetFromJsonAsync<AverageMetrics>(url);
     }
 
     async Task GetPrediction()
@@ -213,16 +217,17 @@
         disableCommand = true;
         prompt = "Processing...";
         try {
-            var response = await _httpClient.PostAsJsonAsync<StockPrice>("api/StockPrice/Prediction", new StockPrice
+            var url = "api/StockPrice/Prediction";
+            var response = await _httpClient.PostAsJsonAsync<StockPrice>(url, new StockPrice
             {
                 Date = date.ToString("yyyy-MM-dd")
             });
             var json = await response.Content.ReadAsStringAsync();
-            var serializerOptions = new JsonSerializerOptions
+            var so = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json, serializerOptions);
+            var predictionData = JsonSerializer.Deserialize<StockPricePrediction>(json, so);
             score = predictionData != null ? predictionData.Score : 0;
         }
         catch {
