@@ -372,6 +372,8 @@ The following image shows the final result.
 
 <img src="file:///C:/_study/Blog/Documents/Screens/bzwa_ml.png" title="" alt="" data-align="center">
 
+![](https://github.com/harveytriana/CrudeOilStockPrice/blob/master/Screens/bzwa_ml.png)
+
 *The Blazor PredirtorPage component*
 
 ```csharp
