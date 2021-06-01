@@ -32,7 +32,7 @@ namespace TrainerConsole
         {
             MLContext mlContext = new(seed: 0);
 
-            var dataView = mlContext.Data.LoadFromTextFile<StockPrice>(dataFile, hasHeader: true, separatorChar: ',');
+            var dataView = mlContext.Data.LoadFromTextFile<StockPrice>(dataFile, ',', true);
 
             Utils.LogDataView(dataView, "Data File");
 
@@ -50,13 +50,19 @@ namespace TrainerConsole
                 .Append(mlContext.Transforms.Concatenate("Features", "DateNumber"))
 
                 // add the learning algorithm
-                .Append(mlContext.Regression.Trainers.FastTree(labelColumnName: "Close", featureColumnName: "Features"));
+                .Append(mlContext.Regression.Trainers.FastTree(
+                    labelColumnName: "Close",
+                    featureColumnName: "Features"));
 
             // train the model
             var model = pipeline.Fit(dataView);
 
             // EVALUATE
-            var crossValidate = mlContext.Regression.CrossValidate(dataView, pipeline, numberOfFolds: 5, labelColumnName: "Close");
+            var crossValidate = mlContext.Regression.CrossValidate(
+                data: dataView,
+                estimator: pipeline,
+                numberOfFolds: 5,
+                labelColumnName: "Close");
 
             var metrics = new AverageMetrics
             {
@@ -86,6 +92,9 @@ namespace TrainerConsole
 
                 // for ui data
                 CreatePredictionsFile(mlContext, dataView, model);
+
+                // If we have released to production, then ..
+                // PublishModelToRemoteServer().Wait();
             }
             else {
                 WriteLine("The model is not accurate enough.");
@@ -96,7 +105,7 @@ namespace TrainerConsole
         private static void CreatePredictionsFile(MLContext mlContext, IDataView dataView, ITransformer model)
         {
             var transformedData = model.Transform(dataView);
-            var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, reuseRowObject: false);
+            var predictions = mlContext.Data.CreateEnumerable<StockPricePrediction>(transformedData, false);
             // save a json file all
             Utils.SaveJsonFile(Utils.PublishPath("Predictions.json"), predictions);
         }
