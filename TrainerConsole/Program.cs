@@ -50,9 +50,7 @@ namespace TrainerConsole
                 .Append(mlContext.Transforms.Concatenate("Features", "DateNumber"))
 
                 // add the learning algorithm
-                .Append(mlContext.Regression.Trainers.FastTree(
-                    labelColumnName: "Close",
-                    featureColumnName: "Features"));
+                .Append(mlContext.Regression.Trainers.FastTree(labelColumnName: "Close", featureColumnName: "Features"));
 
             // train the model
             var model = pipeline.Fit(dataView);
@@ -109,27 +107,9 @@ namespace TrainerConsole
             // save a json file all
             Utils.SaveJsonFile(Utils.PublishPath("Predictions.json"), predictions);
         }
-
-        // TEST
-        //static void PredictionExample()
-        //{
-        //    var mlContext = new MLContext();
-        //    var model = mlContext.Model.Load(MODEL_FILE, out _);
-        //    var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
-        //    var example = new StockPrice { Date = "2018-01-01" };
-        //    var prediction = predictionEngine.Predict(example);
-        //    WriteLine($"\nPrediction example:");
-        //    WriteLine($"Date: {example.Date}, Predicted Price: {prediction.Score}\n\n");
-        //}
-
+                
         public static async Task PublishModelToRemoteServer()
         {
-            // TODO
-            // Upload AverageMetrics.json
-            // Upload Predictions.json
-            // Upload the model: MODEL_FILE
-            // Update remote service for reload model
-
             // api for upload files
             var serverUrl = "http://localhost:8071";
             var uri = serverUrl + "/api/FileUploader";
@@ -143,6 +123,18 @@ namespace TrainerConsole
             using (var httpClient = new HttpClient()) {
                 await httpClient.GetAsync(serverUrl + "/StockPrice/ReloadModel");
             }
+        }
+
+        // How to make a prediction
+        static void PredictionExample()
+        {
+            var mlContext = new MLContext();
+            var model = mlContext.Model.Load(MODEL_FILE, out _);
+            var predictionEngine = mlContext.Model.CreatePredictionEngine<StockPrice, StockPricePrediction>(model);
+            var example = new StockPrice { Date = "2020-01-01" };
+            var prediction = predictionEngine.Predict(example);
+
+            WriteLine($"Date: {example.Date}, Predicted Price: $ {prediction.Score:N2}");
         }
     }
 }
