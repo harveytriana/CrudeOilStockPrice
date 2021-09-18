@@ -49,3 +49,14 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+h1,h2
+ {
+    /*font-family: 'Segoe UI';*/
+    font-weight: 400;
+    font-weight:bold;
+}
+
+h2 {
+    color: dimgray;
+}

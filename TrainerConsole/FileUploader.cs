@@ -20,9 +20,9 @@ namespace TrainerConsole
             }
             try {
                 using (var formContent = new MultipartFormDataContent()) {
-                    var Content = new ByteArrayContent(File.ReadAllBytes(filePath));
-                    Content.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-                    formContent.Add(Content, "file", Path.GetFileName(filePath));
+                    var content = new ByteArrayContent(File.ReadAllBytes(filePath));
+                    content.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+                    formContent.Add(content, "file", Path.GetFileName(filePath));
                     using (HttpClient client = new()) {
                         var response = await client.PostAsync(uri, formContent);
                     }
